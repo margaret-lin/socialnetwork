@@ -1,10 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import Welcome from "./welcome";
 
-const elem = <HelloWorld />;
+const welcome = <Welcome />;
 
-ReactDOM.render(elem, document.querySelector("main"));
-
-function HelloWorld() {
-    return <div>Hello, World!</div>;
-}
+ReactDOM.render(welcome, document.querySelector("main"));
