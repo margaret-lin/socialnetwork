@@ -7,20 +7,22 @@ export default class Register extends React.Component {
         this.state = {};
     }
 
-    submit() {
+    submit(registrationForm) {
+        registrationForm.preventDefault();
         axios
             .post("/register", {
                 email: this.state.email,
                 password: this.state.password,
-                first: this.state.first,
-                last: this.state.last
+                firstName: this.state.firstName,
+                lastName: this.state.lastName
             })
             .then(({ data }) => {
-                if (data.success) {
-                    location.replace("/");
-                } else {
-                    this.setState({ error: true });
-                }
+                console.log("data", data);
+                location.replace("/");
+            })
+            .catch(err => {
+                console.log("err in axios/register", err);
+                this.setState({ error: true });
             });
     }
 
@@ -34,19 +36,20 @@ export default class Register extends React.Component {
         return (
             <div className="registration-field">
                 <p>Join Slow Food Nation!</p>
-                <div className="first">
+                <div className="firstName">
                     {this.state.error && <div className="error">Opps!</div>}
                     <label>First Name:</label>
                     <input
-                        name="first"
-                        placeholder="first name"
+                        name="firstName"
+                        placeholder="First name"
                         onChange={e => this.handleChange(e.target)}
                     />
                 </div>
-                <div className="last">
+                <div className="lastName">
                     <label>Last Name:</label>
                     <input
-                        name="last"
+                        name="lastName"
+                        placeholder="Last name"
                         onChange={e => this.handleChange(e.target)}
                     />
                 </div>
@@ -66,7 +69,7 @@ export default class Register extends React.Component {
                         onChange={e => this.handleChange(e.target)}
                     />
                 </div>
-                <button onClick={e => this.submit()}>Submit</button>
+                <button onClick={e => this.submit(e)}>Submit</button>
             </div>
         );
     }
