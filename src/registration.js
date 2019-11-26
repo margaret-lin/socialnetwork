@@ -6,13 +6,14 @@ export default class Register extends React.Component {
         super(props);
         this.state = {};
     }
+
     submit() {
         axios
             .post("/register", {
-                // can also put the value as ''
                 email: this.state.email,
                 password: this.state.password,
-                first: this.state.first
+                first: this.state.first,
+                last: this.state.last
             })
             .then(({ data }) => {
                 if (data.success) {
@@ -22,25 +23,20 @@ export default class Register extends React.Component {
                 }
             });
     }
-    // like the v-modal in vue, to monior user's input?
+
     handleChange(inputElement) {
         this.setState({
             [inputElement.name]: inputElement.value
         });
-        //or can also do... and email: this.email for example
-        this[inputELement.name] = inputElement.value;
     }
-    render() {
-        const first = "First Name: ";
-        const last = "Last Name: ";
-        const email = "Email: ";
-        const password = "Password: ";
 
+    render() {
         return (
-            <div>
+            <div className="registration-field">
+                <p>Join Slow Food Nation!</p>
                 <div className="first">
                     {this.state.error && <div className="error">Opps!</div>}
-                    {first}
+                    <label>First Name:</label>
                     <input
                         name="first"
                         placeholder="first name"
@@ -48,14 +44,14 @@ export default class Register extends React.Component {
                     />
                 </div>
                 <div className="last">
-                    {last}
+                    <label>Last Name:</label>
                     <input
                         name="last"
                         onChange={e => this.handleChange(e.target)}
                     />
                 </div>
                 <div className="email">
-                    {email}
+                    <label>Email:</label>
                     <input
                         name="email"
                         type="email"
@@ -63,7 +59,7 @@ export default class Register extends React.Component {
                     />
                 </div>
                 <div className="password">
-                    {password}
+                    <label>Password:</label>
                     <input
                         name="password"
                         type="password"

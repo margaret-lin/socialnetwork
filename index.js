@@ -21,11 +21,33 @@ if (process.env.NODE_ENV != "production") {
     app.use("/bundle.js", (req, res) => res.sendFile(`${__dirname}/bundle.js`));
 }
 
-app.get("/", (req, res) => {});
+app.post("/register", (req, res) => {
+    res.status(200);
+});
+
+app.get("/welcome", (req, res) => {
+    if (req.session && req.session.userId) {
+        res.redirect("/");
+    } else {
+        res.sendFile(__dirname + "/index.html");
+    }
+});
 
 app.get("*", (req, res) => {
-    res.sendFile(__dirname + "/index.html");
+    if (req.session && !req.session.userId) {
+        res.redirect("/welcome");
+    } else {
+        res.sendFile(__dirname + "/index.html");
+    }
 });
+
+// app.get("/", (req, res) => {
+//     res.sendFile(__dirname + "/index.html");
+// });
+
+// app.get("*", (req, res) => {
+//     res.sendFile(__dirname + "/index.html");
+// });
 
 app.listen(8080, function() {
     console.log("I'm listening....!!👂");

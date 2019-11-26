@@ -2,6 +2,10 @@ import React from "react";
 import ReactDOM from "react-dom";
 import Welcome from "./welcome";
 
-const welcome = <Welcome />;
+let welcome = <Welcome />;
+
+if (location.pathname != "/welcome") {
+    welcome = <img src="/logo.jpg" alt="Logo" />;
+}
 
 ReactDOM.render(welcome, document.querySelector("main"));
