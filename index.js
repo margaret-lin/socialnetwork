@@ -3,8 +3,11 @@ const app = express();
 const compression = require("compression");
 const db = require("./utils/db");
 const cookieSession = require("cookie-session");
-const csurf = require("csurf");
+// const csurf = require("csurf");
 const { hash, compare } = require("./utils/bc");
+
+app.use(compression());
+app.use(express.json());
 
 app.use(express.urlencoded({ extended: false }));
 
@@ -20,10 +23,6 @@ app.use(function(req, res, next) {
 });
 
 app.use(express.static("./public"));
-
-app.use(compression());
-
-app.use(express.json());
 
 if (process.env.NODE_ENV != "production") {
     app.use(
@@ -70,14 +69,6 @@ app.get("*", (req, res) => {
         res.sendFile(__dirname + "/index.html");
     }
 });
-
-// app.get("/", (req, res) => {
-//     res.sendFile(__dirname + "/index.html");
-// });
-
-// app.get("*", (req, res) => {
-//     res.sendFile(__dirname + "/index.html");
-// });
 
 app.listen(8080, function() {
     console.log("I'm listening....!!👂");

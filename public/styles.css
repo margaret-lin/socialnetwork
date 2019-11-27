@@ -9,6 +9,20 @@ main {
 
 .input-field {
     white-space: pre-line;
+    line-height: 20px;
+}
+
+.input-field > input {
+    white-space: pre-line;
+    line-height: 20px;
+}
+
+.error {
+    color: red;
+}
+
+.link {
+    font-size: 14px;
 }
 
 .logo {
