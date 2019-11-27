@@ -7,6 +7,10 @@ main {
     text-align: center;
 }
 
+.input-field {
+    white-space: pre-line;
+}
+
 .logo {
     width: 100%;
 }

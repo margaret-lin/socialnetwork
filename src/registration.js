@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 
-export default class Register extends React.Component {
+export default class Registration extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
@@ -36,38 +36,40 @@ export default class Register extends React.Component {
         return (
             <div className="registration-field">
                 <p>Join Slow Food Nation!</p>
-                <div className="firstName">
                     {this.state.error && <div className="error">Opps!</div>}
-                    <label>First Name:</label>
+                <div className="input-field">
                     <input
                         name="firstName"
                         placeholder="First name"
                         onChange={e => this.handleChange(e.target)}
-                    />
+                    />{'\n'}
+                    <label>First Name</label>
                 </div>
-                <div className="lastName">
-                    <label>Last Name:</label>
+                <div className="input-field">
                     <input
                         name="lastName"
                         placeholder="Last name"
                         onChange={e => this.handleChange(e.target)}
-                    />
+                    />{'\n'}
+                    <label>Last Name</label>
                 </div>
-                <div className="email">
-                    <label>Email:</label>
+                <div className="input-field">
                     <input
                         name="email"
                         type="email"
+                        placeholder="email"
                         onChange={e => this.handleChange(e.target)}
-                    />
+                    />{'\n'}
+                    <label>Email</label>
                 </div>
-                <div className="password">
-                    <label>Password:</label>
+                <div className="input-field">
                     <input
                         name="password"
                         type="password"
+                        placeholder="password"
                         onChange={e => this.handleChange(e.target)}
-                    />
+                    />{'\n'}
+                    <label>Password</label>
                 </div>
                 <button onClick={e => this.submit(e)}>Submit</button>
             </div>

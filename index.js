@@ -3,6 +3,7 @@ const app = express();
 const compression = require("compression");
 const db = require("./utils/db");
 const cookieSession = require("cookie-session");
+const csurf = require("csurf");
 const { hash, compare } = require("./utils/bc");
 
 app.use(express.urlencoded({ extended: false }));
@@ -10,6 +11,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use(
     cookieSession({ secret: `my secret`, maxAge: 1000 * 60 * 60 * 24 * 14 })
 );
+
+app.use(csurf());
+
+app.use(function(req, res, next) {
+    res.locals.csrfToken = req.csrfToken();
+    next();
+});
 
 app.use(express.static("./public"));
 
