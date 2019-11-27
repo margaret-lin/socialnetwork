@@ -3,7 +3,7 @@ const app = express();
 const compression = require("compression");
 const db = require("./utils/db");
 const cookieSession = require("cookie-session");
-// const csurf = require("csurf");
+const csurf = require("csurf");
 const { hash, compare } = require("./utils/bc");
 
 app.use(compression());
@@ -18,7 +18,7 @@ app.use(
 app.use(csurf());
 
 app.use(function(req, res, next) {
-    res.locals.csrfToken = req.csrfToken();
+    res.cookie("mytoken", req.csrfToken());
     next();
 });
 
@@ -48,10 +48,36 @@ app.post("/register", (req, res) => {
             )
             .then(({ rows }) => {
                 req.session.userId = rows[0].id;
-                res.json(rows);
+                res.json({
+                    success: true
+                });
             })
             .catch(err => console.log("err in app.post /register", err))
     );
+});
+
+app.post("/login", (req, res) => {
+    let email = req.body.email;
+    let inputPassword = req.body.password;
+
+    db.getPassword(email)
+        .then(({ rows }) => {
+            let hashedPassword = rows[0].password;
+            req.session.userId = rows[0].id;
+
+            compare(inputPassword, hashedPassword).then(match => {
+                if (match) {
+                    res.json({
+                        success: true
+                    });
+                } else {
+                    res.json({
+                        error: true
+                    });
+                }
+            });
+        })
+        .catch(err => console.log("err in compare pwd", err));
 });
 
 app.get("/welcome", (req, res) => {

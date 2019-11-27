@@ -17,8 +17,12 @@ export default class Login extends React.Component {
                 password: this.state.password
             })
             .then(({ data }) => {
-                console.log("data", data);
-                location.replace("/");
+                if (data.success) {
+                    console.log("data login success!");
+                    location.replace("/");
+                } else {
+                    this.setState({ error: true });
+                }
             })
             .catch(err => {
                 console.log("err in axios/login", err);

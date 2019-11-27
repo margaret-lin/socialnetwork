@@ -19,8 +19,12 @@ export default class Registration extends React.Component {
                 lastName: this.state.lastName
             })
             .then(({ data }) => {
-                console.log("data", data);
-                location.replace("/");
+                if (data.success) {
+                    console.log("data registration success!");
+                    location.replace("/");
+                } else {
+                    this.setState({ error: true });
+                }
             })
             .catch(err => {
                 console.log("err in axios/register", err);
