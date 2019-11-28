@@ -28,3 +28,10 @@ exports.getUserInfo = function getUserInfo(id) {
         [id]
     );
 };
+
+exports.updateUserImage = function updateUserImage(imageUrl, id) {
+    return db.query(
+        "UPDATE users SET image_url = $1 WHERE id = $2 RETURNING *",
+        [imageUrl, id]
+    );
+};

@@ -120,12 +120,12 @@ app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
     const imageUrl = `${s3Url}${req.file.filename}`;
     console.log("imageUrl: ", imageUrl);
 
-    // db.uploadImage(title, description, username, imageUrl).then(({ rows }) => {
-    //     console.log("image rows", rows);
-    //     res.json({
-    //         image: rows[0]
-    //     });
-    // });
+    db.updateUserImage(imageUrl, req.session.userId)
+        .then(({ rows }) => {
+            console.log("updateUserImage successful!!", rows);
+            res.json(rows);
+        })
+        .catch(err => console.log("err in updateUserImage back: ", err));
 });
 
 app.get("/welcome", (req, res) => {
