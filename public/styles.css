@@ -34,6 +34,11 @@ main {
     float: left;
 }
 
+.user-profile-picture {
+    width: 100px;
+    height: 100px;
+}
+
 .registration-field {
     line-height: 2em;
 }

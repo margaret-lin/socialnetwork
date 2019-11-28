@@ -13,10 +13,10 @@ export class App extends React.Component {
             uploaderIsVisible: null
         };
         this.toggleModal = this.toggleModal.bind(this);
+        this.uploadImage = this.uploadImage.bind(this);
     }
 
     componentDidMount(userInfo) {
-        console.log("App has mounted!");
         axios
             .get("/user", {
                 firstName: this.state.firstName,
@@ -36,30 +36,42 @@ export class App extends React.Component {
     toggleModal() {
         console.log("toggle modal is running!");
         this.setState({
-            // make it "diversily true"
             uploaderIsVisible: !this.state.uploaderIsVisible
         });
     }
 
-    methodInApp(muffin) {
-        console.log("I'm a method in App");
-        console.log("muffin: ", muffin);
+    uploadImage(e) {
+        // e.preventDefault();
+        // let fd = new FormData();
+        // let me = this;
+        // fd.append("file", this.file);
+        // axios
+        //     .post("/upload", fd)
+        //     .then(res => {
+        //         me.images.unshift(res.data.image);
+        //     })
+        //     .catch(err => console.log("error in post/upload", err));
+    }
+
+    onChange(e) {
+        this.setState({ file: e.target.files[0] });
     }
 
     render() {
         return (
             <div>
-                {/* <h1 onClick={this.toggleModal}>Hello from App!</h1> */}
                 <img src="/logo.jpg" className="logo-small" alt="Logo" />
-                <h1>Hello from App!</h1>
                 <ProfilePic
                     firstName={this.state.firstName}
                     lastName={this.state.lastName}
                     profilePicUrl={this.state.profilePicUrl}
                 />
+                <button onClick={this.toggleModal}>
+                    change your profile..
+                </button>
 
                 {this.state.uploaderIsVisible && (
-                    <Uploader methodInApp={this.methodInApp} />
+                    <Uploader uploadImage={this.uploadImage} />
                 )}
             </div>
         );

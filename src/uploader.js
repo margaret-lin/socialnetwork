@@ -8,9 +8,24 @@ export default class Uploader extends React.Component {
     }
 
     componentDidMount() {
-        console.log("uploader mounted!");
-        console.log("this.props: ", this.props);
-        this.props.methodInApp("I love muffin");
+        this.props.uploadImage("testing");
+    }
+
+    uploadImage(e) {
+        //     e.preventDefault();
+        //     let fd = new FormData();
+        //     let me = this;
+        //     fd.append("file", this.file);
+        //     axios
+        //         .post("/upload", fd)
+        //         .then(res => {
+        //             me.images.unshift(res.data.image);
+        //         })
+        //         .catch(err => console.log("error in post/upload", err));
+    }
+
+    onChange(e) {
+        this.setState({ file: e.target.files[0] });
     }
 
     render() {
