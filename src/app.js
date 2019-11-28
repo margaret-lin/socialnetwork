@@ -13,7 +13,6 @@ export class App extends React.Component {
             uploaderIsVisible: null
         };
         this.toggleModal = this.toggleModal.bind(this);
-        this.uploadImage = this.uploadImage.bind(this);
     }
 
     componentDidMount(userInfo) {
@@ -40,19 +39,6 @@ export class App extends React.Component {
         });
     }
 
-    uploadImage(e) {
-        // e.preventDefault();
-        // let fd = new FormData();
-        // let me = this;
-        // fd.append("file", this.file);
-        // axios
-        //     .post("/upload", fd)
-        //     .then(res => {
-        //         me.images.unshift(res.data.image);
-        //     })
-        //     .catch(err => console.log("error in post/upload", err));
-    }
-
     onChange(e) {
         this.setState({ file: e.target.files[0] });
     }
@@ -70,9 +56,7 @@ export class App extends React.Component {
                     change your profile..
                 </button>
 
-                {this.state.uploaderIsVisible && (
-                    <Uploader uploadImage={this.uploadImage} />
-                )}
+                {this.state.uploaderIsVisible && <Uploader />}
             </div>
         );
     }
