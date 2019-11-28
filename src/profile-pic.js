@@ -1,14 +1,22 @@
 import React from "react";
 
-export function ProfilePic({ firstName, profilePicUrl, lastName }) {
+export function ProfilePic({
+    firstName,
+    lastName,
+    profilePicUrl,
+    toggleModal
+}) {
     profilePicUrl = profilePicUrl || "/default.png";
+    const fullName = firstName + " " + lastName;
+
     return (
         <div>
-            <h2>I'm the Profile Pic! {firstName}</h2>
+            <h2>I'm the Profile Pic!</h2>
             <img
                 src={profilePicUrl}
                 className="user-profile-picture"
-                alt={firstName}
+                alt={fullName}
+                onClick={toggleModal}
             />
         </div>
     );

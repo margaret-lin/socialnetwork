@@ -56,10 +56,8 @@ export class App extends React.Component {
                     firstName={this.state.firstName}
                     lastName={this.state.lastName}
                     profilePicUrl={this.state.profilePicUrl}
+                    toggleModal={this.toggleModal}
                 />
-                <button onClick={this.toggleModal}>
-                    change your profile..
-                </button>
 
                 {this.state.uploaderIsVisible && (
                     <Uploader refreshProfilePic={this.refreshProfilePic} />
