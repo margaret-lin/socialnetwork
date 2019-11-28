@@ -21,3 +21,10 @@ exports.createUser = function createUser(
 exports.getPassword = function getPassword(email) {
     return db.query("SELECT password, id FROM users WHERE email = $1", [email]);
 };
+
+exports.getUserInfo = function getUserInfo(id) {
+    return db.query(
+        "SELECT first_name, last_name, image_url FROM users where id = $1",
+        [id]
+    );
+};

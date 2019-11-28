@@ -80,6 +80,20 @@ app.post("/login", (req, res) => {
         .catch(err => console.log("err in compare pwd", err));
 });
 
+app.get("/user", (req, res) => {
+    // console.log("userId..", req.session.userId);
+    db.getUserInfo(req.session.userId)
+        .then(({ rows }) => {
+            console.log("made it to app.get/user getUserInfo!");
+            res.json({
+                firstName: rows[0].first_name,
+                lastName: rows[0].last_name,
+                imageUrl: rows[0].image_url
+            });
+        })
+        .catch(err => console.log("error in app.get/user...", err));
+});
+
 app.get("/welcome", (req, res) => {
     if (req.session && req.session.userId) {
         res.redirect("/");

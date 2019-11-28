@@ -1,15 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Welcome from "./welcome";
-import App from "./app";
+import { App } from "./app";
 
 let welcome = <Welcome />;
 
 if (location.pathname != "/welcome") {
-    elem = <Welcome />;
-    // welcome = <img src="/logo.jpg" className="logo-small" alt="Logo" />;
+    welcome = <App />;
 } else {
-    elem = <App />;
+    // welcome = <img src="/logo.jpg" className="logo-small" alt="Logo" />;
+    welcome = <Welcome />;
 }
 
 ReactDOM.render(welcome, document.querySelector("main"));

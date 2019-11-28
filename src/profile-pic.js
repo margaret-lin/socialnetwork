@@ -1,8 +1,6 @@
 import React from "react";
 
-export function ProfilePic({ firstname, profilePicUrl, lastName }) {
-    console.log("props in ProfilePic: ", props);
-
+export function ProfilePic({ firstName, profilePicUrl, lastName }) {
     // if there is no profilePicUrl, set it to default url
     profilePicUrl = profilePicUrl || "/img/default.png";
     return (

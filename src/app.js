@@ -7,18 +7,30 @@ export class App extends React.Component {
     constructor() {
         super();
         this.state = {
-            firstName: "Margaret",
+            firstName: "",
+            lastName: "",
+            profilePicUrl: "",
             uploaderIsVisible: null
         };
         this.toggleModal = this.toggleModal.bind(this);
     }
 
-    componentDidMount() {
+    componentDidMount(userInfo) {
         console.log("App has mounted!");
-        // here we are contacting the server and ask for info about the user
-        //axios.get()
-        // when we get the info back, we want to add it to state
-        // this.setState({}
+        axios
+            .get("/user", {
+                firstName: this.state.firstName,
+                lastName: this.state.lastName,
+                profilePicUrl: this.state.profilePicUrl
+            })
+            .then(({ data }) => {
+                console.log("axios/get sucess made it to setState!", data);
+                this.setState({
+                    firstName: data.firstName,
+                    lastName: data.lastName,
+                    profilePicUrl: data.imageUrl
+                });
+            });
     }
 
     toggleModal() {
@@ -38,6 +50,7 @@ export class App extends React.Component {
         return (
             <div>
                 {/* <h1 onClick={this.toggleModal}>Hello from App!</h1> */}
+                <img src="/logo.jpg" className="logo-small" alt="Logo" />
                 <h1>Hello from App!</h1>
                 <ProfilePic
                     firstName={this.state.firstName}
