@@ -10,12 +10,13 @@ export class App extends React.Component {
             firstName: "",
             lastName: "",
             profilePicUrl: "",
-            uploaderIsVisible: null
+            uploaderIsVisible: false
         };
         this.toggleModal = this.toggleModal.bind(this);
+        this.refreshProfilePic = this.refreshProfilePic.bind(this);
     }
 
-    componentDidMount(userInfo) {
+    componentDidMount() {
         axios
             .get("/user", {
                 firstName: this.state.firstName,
@@ -39,8 +40,12 @@ export class App extends React.Component {
         });
     }
 
-    onChange(e) {
-        this.setState({ file: e.target.files[0] });
+    refreshProfilePic(newImageUrl) {
+        console.log("new image url", newImageUrl);
+        this.setState({
+            profilePicUrl: newImageUrl,
+            uploaderIsVisible: false
+        });
     }
 
     render() {
@@ -56,7 +61,9 @@ export class App extends React.Component {
                     change your profile..
                 </button>
 
-                {this.state.uploaderIsVisible && <Uploader />}
+                {this.state.uploaderIsVisible && (
+                    <Uploader refreshProfilePic={this.refreshProfilePic} />
+                )}
             </div>
         );
     }

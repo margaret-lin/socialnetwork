@@ -19,6 +19,7 @@ export default class Uploader extends React.Component {
             .post("/upload", fd)
             .then(res => {
                 console.log("uploadImage successful: ", res);
+                this.props.refreshProfilePic(res.data.imageUrl);
             })
             .catch(err => console.log("error in uploadImage", err));
     }

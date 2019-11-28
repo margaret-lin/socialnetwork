@@ -102,28 +102,21 @@ app.post("/login", (req, res) => {
 });
 
 app.get("/user", (req, res) => {
-    // console.log("userId..", req.session.userId);
     db.getUserInfo(req.session.userId)
         .then(({ rows }) => {
-            console.log("made it to app.get/user getUserInfo!");
-            res.json({
-                firstName: rows[0].first_name,
-                lastName: rows[0].last_name,
-                imageUrl: rows[0].image_url
-            });
+            res.json(createUserResponse(rows[0]));
         })
         .catch(err => console.log("error in app.get/user...", err));
 });
 
 app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
-    // const { title, description, username } = req.body;
     const imageUrl = `${s3Url}${req.file.filename}`;
     console.log("imageUrl: ", imageUrl);
 
     db.updateUserImage(imageUrl, req.session.userId)
         .then(({ rows }) => {
             console.log("updateUserImage successful!!", rows);
-            res.json(rows);
+            res.json(createUserResponse(rows[0]));
         })
         .catch(err => console.log("err in updateUserImage back: ", err));
 });
@@ -147,3 +140,11 @@ app.get("*", (req, res) => {
 app.listen(8080, function() {
     console.log("I'm listening....!!👂");
 });
+
+function createUserResponse(dbUser) {
+    return {
+        firstName: dbUser.first_name,
+        lastName: dbUser.last_name,
+        imageUrl: dbUser.image_url
+    };
+}

@@ -41,7 +41,6 @@ export default class Registration extends React.Component {
     render() {
         return (
             <div className="registration-field">
-                <p>Join Slow Food Nation!</p>
                     {this.state.error && <div className="error">Opps!</div>}
                 <div className="input-field">
                     <input
