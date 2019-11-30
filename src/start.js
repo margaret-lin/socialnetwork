@@ -8,7 +8,6 @@ let welcome = <Welcome />;
 if (location.pathname != "/welcome") {
     welcome = <App />;
 } else {
-    // welcome = <img src="/logo.jpg" className="logo-small" alt="Logo" />;
     welcome = <Welcome />;
 }
 

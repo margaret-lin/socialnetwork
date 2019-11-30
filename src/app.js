@@ -2,6 +2,7 @@ import React from "react";
 import axios from "./axios";
 import { ProfilePic } from "./profile-pic";
 import Uploader from "./uploader";
+import { Profile } from "./profile";
 
 export class App extends React.Component {
     constructor() {
@@ -49,6 +50,10 @@ export class App extends React.Component {
     }
 
     render() {
+        // make sure not to display until data arrives...
+        if (!this.state.firstName) {
+            return null;
+        }
         return (
             <div>
                 <img src="/logo.jpg" className="logo-small" alt="Logo" />
@@ -57,6 +62,13 @@ export class App extends React.Component {
                     lastName={this.state.lastName}
                     profilePicUrl={this.state.profilePicUrl}
                     toggleModal={this.toggleModal}
+                    profilePicClass="small-profile-pic"
+                />
+
+                <Profile
+                    firstName={this.state.firstName}
+                    lastName={this.state.lastName}
+                    profilePicUrl={this.state.profilePicUrl}
                 />
 
                 {this.state.uploaderIsVisible && (
@@ -66,3 +78,5 @@ export class App extends React.Component {
         );
     }
 }
+
+// updateBio() passes down to Profile, pass down to Bioedit
