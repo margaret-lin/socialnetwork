@@ -6,15 +6,12 @@ export class BioEditor extends React.Component {
         super(props);
         this.state = {
             editingMode: false,
-            buttonText: "",
             bioEditorText: this.props.biography
         };
-        this.toggleEditBio = this.toggleEditBio.bind(this);
+        this.updateBioText = this.updateBioText.bind(this);
     }
 
-    componentDidMount() {}
-
-    toggleEditBio() {
+    updateBioText() {
         console.log("toggleEditBio is running!");
         this.setState({
             editingMode: !this.state.editingMode
@@ -50,7 +47,7 @@ export class BioEditor extends React.Component {
                         onChange={e => this.handleChange(e.target)}
                         defaultValue={this.state.bioEditorText}
                     />
-                    <button onClick={this.toggleEditBio}>Save</button>
+                    <button onClick={this.updateBioText}>Save</button>
                 </div>
             );
         } else {
@@ -58,7 +55,7 @@ export class BioEditor extends React.Component {
                 <div>
                     <h1>I am the bio editor!</h1>
                     <p>{this.props.biography}</p>
-                    <button onClick={this.toggleEditBio}>
+                    <button onClick={this.updateBioText}>
                         {bioButtonText}
                     </button>
                 </div>
