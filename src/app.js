@@ -11,6 +11,7 @@ export class App extends React.Component {
             firstName: "",
             lastName: "",
             profilePicUrl: "",
+            biography: "",
             uploaderIsVisible: false
         };
         this.toggleModal = this.toggleModal.bind(this);
@@ -22,14 +23,16 @@ export class App extends React.Component {
             .get("/user", {
                 firstName: this.state.firstName,
                 lastName: this.state.lastName,
-                profilePicUrl: this.state.profilePicUrl
+                profilePicUrl: this.state.profilePicUrl,
+                biography: this.state.biography
             })
             .then(({ data }) => {
-                console.log("axios/get sucess made it to setState!", data);
+                console.log("axios/get sucess made it to user/setState!", data);
                 this.setState({
                     firstName: data.firstName,
                     lastName: data.lastName,
-                    profilePicUrl: data.imageUrl
+                    profilePicUrl: data.profilePicUrl,
+                    biography: data.biography
                 });
             });
     }

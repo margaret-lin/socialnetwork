@@ -5,6 +5,7 @@ export class BioEditor extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            biography: "",
             editingMode: false,
             buttonText: ""
         };
@@ -12,16 +13,28 @@ export class BioEditor extends React.Component {
     }
 
     componentDidMount() {
-        console.log("props in BioEditor: ", this.props);
-        if (!this.props.bio) {
-            console.log("no bio!");
-            this.setState(
-                {
-                    buttonText: "Add your bio"
-                },
-                () => console.log("this.state", this.state)
-            );
-        }
+        axios
+            .post("/update-bio", { biography: this.state.biography })
+            .then(({ data }) => {
+                console.log("axio/post biography made!");
+                if (!this.props.bio) {
+                    console.log("no bio!");
+                    this.setState(
+                        {
+                            buttonText: "Add your bio",
+                            bio: data.biography
+                        },
+                        () => console.log("this.state", this.state)
+                    );
+                } else {
+                    console.log("someone has bio!");
+                    this.setState({
+                        buttonText: "Edit bio",
+                        bio: data.biography
+                    });
+                }
+            })
+            .catch(err => console.log("err in axios.post biography", err));
     }
 
     toggleEditBio() {
@@ -51,5 +64,3 @@ export class BioEditor extends React.Component {
         );
     }
 }
-
-// onClick on the 'button' so that it can have toggle modal

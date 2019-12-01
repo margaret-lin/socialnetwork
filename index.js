@@ -121,6 +121,16 @@ app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
         .catch(err => console.log("err in updateUserImage back: ", err));
 });
 
+app.post("/update-bio", (req, res) => {
+    console.log("req.body update-bio is: ", req.body);
+    db.updateUserBio(req.body.biography, req.session.userId)
+        .then(({ rows }) => {
+            console.log("app.post: update biography is successful!", rows);
+            res.json(createUserResponse(rows[0]));
+        })
+        .catch(err => console.log("err in app.post/update-bio", err));
+});
+
 app.get("/welcome", (req, res) => {
     if (req.session && req.session.userId) {
         res.redirect("/");
@@ -145,6 +155,7 @@ function createUserResponse(dbUser) {
     return {
         firstName: dbUser.first_name,
         lastName: dbUser.last_name,
-        imageUrl: dbUser.image_url
+        profilePicUrl: dbUser.image_url,
+        biography: dbUser.biography
     };
 }
