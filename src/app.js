@@ -16,6 +16,7 @@ export class App extends React.Component {
         };
         this.toggleModal = this.toggleModal.bind(this);
         this.refreshProfilePic = this.refreshProfilePic.bind(this);
+        this.updateBiography = this.updateBiography.bind(this);
     }
 
     componentDidMount() {
@@ -52,6 +53,13 @@ export class App extends React.Component {
         });
     }
 
+    updateBiography(bioText) {
+        console.log("biography text is: ", bioText);
+        this.setState({
+            biography: bioText
+        });
+    }
+
     render() {
         // make sure not to display until data arrives...
         if (!this.state.firstName) {
@@ -73,6 +81,7 @@ export class App extends React.Component {
                     lastName={this.state.lastName}
                     profilePicUrl={this.state.profilePicUrl}
                     biography={this.state.biography}
+                    updateBiography={this.updateBiography}
                 />
 
                 {this.state.uploaderIsVisible && (

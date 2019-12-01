@@ -6,38 +6,32 @@ export class BioEditor extends React.Component {
         super(props);
         this.state = {
             editingMode: false,
-            buttonText: ""
+            buttonText: "",
+            bioEditorText: this.props.biography
         };
         this.toggleEditBio = this.toggleEditBio.bind(this);
     }
 
-    componentDidMount() {
-        // axios
-        //     .post("/update-bio", { biography: this.state.biography })
-        //     .then(({ data }) => {
-        //         console.log("axio/post biography made!");
-        //         if (!this.props.biography) {
-        //             console.log("no bio!");
-        //             this.setState(
-        //                 {
-        //                     buttonText: "Add your bio"
-        //                 },
-        //                 () => console.log("this.state", this.state)
-        //             );
-        //         } else {
-        //             console.log("someone has bio!");
-        //             this.setState({
-        //                 buttonText: "Edit bio"
-        //             });
-        //         }
-        //     })
-        //     .catch(err => console.log("err in axios.post biography", err));
-    }
+    componentDidMount() {}
 
     toggleEditBio() {
         console.log("toggleEditBio is running!");
         this.setState({
             editingMode: !this.state.editingMode
+        });
+        let me = this;
+        axios
+            .post("/update-bio", { biography: this.state.bioEditorText })
+            .then(({ data }) => {
+                console.log("axio/post biography is successful!");
+                me.props.updateBiography(me.state.bioEditorText);
+            })
+            .catch(err => console.log("err in axios.post biography", err));
+    }
+
+    handleChange(inputElement) {
+        this.setState({
+            [inputElement.name]: inputElement.value
         });
     }
 
@@ -46,7 +40,11 @@ export class BioEditor extends React.Component {
             return (
                 <div>
                     <p>Write something to your bio!</p>
-                    <textarea defaultValue={this.props.biography} />
+                    <textarea
+                        name="bioEditorText"
+                        onChange={e => this.handleChange(e.target)}
+                        defaultValue={this.state.bioEditorText}
+                    />
                     <button onClick={this.toggleEditBio}>Save</button>
                 </div>
             );

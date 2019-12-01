@@ -15,7 +15,10 @@ export function Profile(props) {
                 profilePicClass="profile-pic"
             />
 
-            <BioEditor biography={props.biography} />
+            <BioEditor
+                biography={props.biography}
+                updateBiography={props.updateBiography}
+            />
         </div>
     );
 }

@@ -24,7 +24,7 @@ exports.getPassword = function getPassword(email) {
 
 exports.getUserInfo = function getUserInfo(id) {
     return db.query(
-        "SELECT first_name, last_name, image_url FROM users where id = $1",
+        "SELECT first_name, last_name, image_url, biography FROM users where id = $1",
         [id]
     );
 };
