@@ -53,7 +53,6 @@ export class BioEditor extends React.Component {
         } else {
             return (
                 <div>
-                    <h1>I am the bio editor!</h1>
                     <p>{this.props.biography}</p>
                     <button onClick={this.updateBioText}>
                         {bioButtonText}

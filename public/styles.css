@@ -29,17 +29,36 @@ main {
     width: 100%;
 }
 
+#nav-bar {
+    background-color: #eb793c;
+    height: 75px;
+    box-shadow: 0 2px 2px 0.5px rgba(0, 0, 0, 0.281);
+}
+
 .logo-small {
-    width: 20%;
+    height: 75px;
     float: left;
 }
 
-.user-profile-picture {
-    width: 100px;
-    height: 100px;
+.profile-pic {
+    width: 200px;
+    height: 200px;
+    cursor: pointer;
+    margin-top: 20%;
+}
+
+.small-profile-pic {
+    width: 75px;
+    height: 75px;
+    float: right;
     cursor: pointer;
 }
 
 .registration-field {
     line-height: 2em;
+}
+
+#uploader-box {
+    background-color: rgba(180, 141, 31, 0.836);
+    height: 100%;
 }

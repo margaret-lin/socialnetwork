@@ -20,22 +20,14 @@ export class App extends React.Component {
     }
 
     componentDidMount() {
-        axios
-            .get("/user", {
-                firstName: this.state.firstName,
-                lastName: this.state.lastName,
-                profilePicUrl: this.state.profilePicUrl,
-                biography: this.state.biography
-            })
-            .then(({ data }) => {
-                console.log("axios/get sucess made it to user/setState!", data);
-                this.setState({
-                    firstName: data.firstName,
-                    lastName: data.lastName,
-                    profilePicUrl: data.profilePicUrl,
-                    biography: data.biography
-                });
+        axios.get("/user").then(({ data }) => {
+            this.setState({
+                firstName: data.firstName,
+                lastName: data.lastName,
+                profilePicUrl: data.profilePicUrl,
+                biography: data.biography
             });
+        });
     }
 
     toggleModal() {
@@ -67,14 +59,16 @@ export class App extends React.Component {
         }
         return (
             <div>
-                <img src="/logo.jpg" className="logo-small" alt="Logo" />
-                <ProfilePic
-                    firstName={this.state.firstName}
-                    lastName={this.state.lastName}
-                    profilePicUrl={this.state.profilePicUrl}
-                    toggleModal={this.toggleModal}
-                    profilePicClass="small-profile-pic"
-                />
+                <div id="nav-bar">
+                    <img src="/logo.jpg" className="logo-small" alt="Logo" />
+                    <ProfilePic
+                        firstName={this.state.firstName}
+                        lastName={this.state.lastName}
+                        profilePicUrl={this.state.profilePicUrl}
+                        toggleModal={this.toggleModal}
+                        profilePicClass="small-profile-pic"
+                    />
+                </div>
 
                 <Profile
                     firstName={this.state.firstName}

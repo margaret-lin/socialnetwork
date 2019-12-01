@@ -30,8 +30,7 @@ export default class Uploader extends React.Component {
 
     render() {
         return (
-            <div>
-                <h3>I'm the Uploader!</h3>
+            <div id="uploader-box">
                 <input
                     onChange={this.selectImage}
                     type="file"

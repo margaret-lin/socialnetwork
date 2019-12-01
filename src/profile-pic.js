@@ -4,17 +4,17 @@ export function ProfilePic({
     firstName,
     lastName,
     profilePicUrl,
-    toggleModal
+    toggleModal,
+    profilePicClass
 }) {
     profilePicUrl = profilePicUrl || "/default.png";
     const fullName = firstName + " " + lastName;
 
     return (
         <div>
-            <h2>I'm the Profile Pic!</h2>
             <img
                 src={profilePicUrl}
-                className="user-profile-picture"
+                className={profilePicClass}
                 alt={fullName}
                 onClick={toggleModal}
             />
