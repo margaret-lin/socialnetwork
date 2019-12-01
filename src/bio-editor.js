@@ -5,7 +5,6 @@ export class BioEditor extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            biography: "",
             editingMode: false,
             buttonText: ""
         };
@@ -13,28 +12,26 @@ export class BioEditor extends React.Component {
     }
 
     componentDidMount() {
-        axios
-            .post("/update-bio", { biography: this.state.biography })
-            .then(({ data }) => {
-                console.log("axio/post biography made!");
-                if (!this.props.bio) {
-                    console.log("no bio!");
-                    this.setState(
-                        {
-                            buttonText: "Add your bio",
-                            bio: data.biography
-                        },
-                        () => console.log("this.state", this.state)
-                    );
-                } else {
-                    console.log("someone has bio!");
-                    this.setState({
-                        buttonText: "Edit bio",
-                        bio: data.biography
-                    });
-                }
-            })
-            .catch(err => console.log("err in axios.post biography", err));
+        // axios
+        //     .post("/update-bio", { biography: this.state.biography })
+        //     .then(({ data }) => {
+        //         console.log("axio/post biography made!");
+        //         if (!this.props.biography) {
+        //             console.log("no bio!");
+        //             this.setState(
+        //                 {
+        //                     buttonText: "Add your bio"
+        //                 },
+        //                 () => console.log("this.state", this.state)
+        //             );
+        //         } else {
+        //             console.log("someone has bio!");
+        //             this.setState({
+        //                 buttonText: "Edit bio"
+        //             });
+        //         }
+        //     })
+        //     .catch(err => console.log("err in axios.post biography", err));
     }
 
     toggleEditBio() {
@@ -49,7 +46,7 @@ export class BioEditor extends React.Component {
             return (
                 <div>
                     <p>Write something to your bio!</p>
-                    <textarea defaultValue={this.props.bio} />
+                    <textarea defaultValue={this.props.biography} />
                     <button onClick={this.toggleEditBio}>Save</button>
                 </div>
             );
@@ -57,9 +54,8 @@ export class BioEditor extends React.Component {
         return (
             <div>
                 <h1>I am the bio editor!</h1>
-                <button onClick={this.toggleEditBio}>
-                    {this.state.buttonText}
-                </button>
+                <p>{this.props.biography}</p>
+                <button onClick={this.toggleEditBio}>edit</button>
             </div>
         );
     }

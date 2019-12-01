@@ -72,6 +72,7 @@ export class App extends React.Component {
                     firstName={this.state.firstName}
                     lastName={this.state.lastName}
                     profilePicUrl={this.state.profilePicUrl}
+                    biography={this.state.biography}
                 />
 
                 {this.state.uploaderIsVisible && (
