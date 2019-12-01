@@ -36,6 +36,11 @@ export class BioEditor extends React.Component {
     }
 
     render() {
+        let bioButtonText = "Add Bio";
+        if (this.state.bioEditorText) {
+            bioButtonText = "Edit";
+        }
+
         if (this.state.editingMode) {
             return (
                 <div>
@@ -48,13 +53,16 @@ export class BioEditor extends React.Component {
                     <button onClick={this.toggleEditBio}>Save</button>
                 </div>
             );
+        } else {
+            return (
+                <div>
+                    <h1>I am the bio editor!</h1>
+                    <p>{this.props.biography}</p>
+                    <button onClick={this.toggleEditBio}>
+                        {bioButtonText}
+                    </button>
+                </div>
+            );
         }
-        return (
-            <div>
-                <h1>I am the bio editor!</h1>
-                <p>{this.props.biography}</p>
-                <button onClick={this.toggleEditBio}>edit</button>
-            </div>
-        );
     }
 }
