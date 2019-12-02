@@ -1,8 +1,10 @@
 import React from "react";
 import axios from "./axios";
+import { BrowserRouter, Route } from "react-router-dom";
 import { ProfilePic } from "./profile-pic";
 import Uploader from "./uploader";
 import { Profile } from "./profile";
+import { OtherProfile } from "./other-profile";
 
 export class App extends React.Component {
     constructor() {
@@ -20,7 +22,7 @@ export class App extends React.Component {
     }
 
     componentDidMount() {
-        axios.get("/user").then(({ data }) => {
+        axios.get("/user.json").then(({ data }) => {
             this.setState({
                 firstName: data.firstName,
                 lastName: data.lastName,
@@ -59,25 +61,40 @@ export class App extends React.Component {
         }
         return (
             <div>
-                <div id="nav-bar">
-                    <img src="/logo.jpg" className="logo-small" alt="Logo" />
-                    <ProfilePic
-                        firstName={this.state.firstName}
-                        lastName={this.state.lastName}
-                        profilePicUrl={this.state.profilePicUrl}
-                        toggleModal={this.toggleModal}
-                        profilePicClass="small-profile-pic"
-                    />
-                </div>
+                <BrowserRouter>
+                    <div>
+                        <div id="nav-bar">
+                            <img
+                                src="/logo.jpg"
+                                className="logo-small"
+                                alt="Logo"
+                            />
+                            <ProfilePic
+                                firstName={this.state.firstName}
+                                lastName={this.state.lastName}
+                                profilePicUrl={this.state.profilePicUrl}
+                                toggleModal={this.toggleModal}
+                                profilePicClass="small-profile-pic"
+                            />
+                        </div>
 
-                <Profile
-                    firstName={this.state.firstName}
-                    lastName={this.state.lastName}
-                    profilePicUrl={this.state.profilePicUrl}
-                    biography={this.state.biography}
-                    updateBiography={this.updateBiography}
-                />
+                        <Route
+                            exact
+                            path="/"
+                            render={() => (
+                                <Profile
+                                    firstName={this.state.firstName}
+                                    lastName={this.state.lastName}
+                                    profilePicUrl={this.state.profilePicUrl}
+                                    biography={this.state.biography}
+                                    updateBiography={this.updateBiography}
+                                />
+                            )}
+                        />
 
+                        <Route path="/user/:id" component={OtherProfile} />
+                    </div>
+                </BrowserRouter>
                 {this.state.uploaderIsVisible && (
                     <Uploader refreshProfilePic={this.refreshProfilePic} />
                 )}

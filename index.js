@@ -101,12 +101,26 @@ app.post("/login", (req, res) => {
         .catch(err => console.log("err in compare pwd", err));
 });
 
-app.get("/user", (req, res) => {
+app.get("/user.json", (req, res) => {
     db.getUserInfo(req.session.userId)
         .then(({ rows }) => {
             res.json(createUserResponse(rows[0]));
         })
         .catch(err => console.log("error in app.get/user...", err));
+});
+
+app.get("/user.json/:id", (req, res) => {
+    let { id } = req.params;
+    // console.log("req. body other profile is: ", req.body);
+    db.getUserInfo(id)
+        .then(({ rows }) => {
+            console.log(
+                "app.get: get other user profile is successful!!",
+                rows
+            );
+            res.json(createUserResponse(rows[0]));
+        })
+        .catch(err => console.log("error in app.get/user/:id...", err));
 });
 
 app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
