@@ -4,41 +4,45 @@ import axios from "./axios";
 export class OtherProfile extends React.Component {
     constructor() {
         super();
-        this.state = {
-            firstName: "",
-            lastName: "",
-            profilePicUrl: "",
-            biography: ""
-        };
+        this.state = {};
     }
 
     componentDidMount() {
         // figure out the id of the user...
         console.log("this.props.match.params.id: ", this.props.match.params.id);
 
-        // make a a request to the server, passing along this props.match.params.id
-        // this server needs to look up the data about that user
-        // and send back information about the currently logged in user
         axios
             .get(`/user.json/${this.props.match.params.id}`)
             .then(({ data }) => {
+                console.log("user other data", data);
                 this.setState({
+                    id: data.id,
                     firstName: data.firstName,
                     lastName: data.lastName,
                     profilePicUrl: data.profilePicUrl,
-                    biography: data.biography
+                    biography: data.biography,
+                    userId: data.userId
                 });
-            });
 
-        // not letting user to see his own profile
-        // set a conddition to see if other users id is the same as the logged in user id
-        if (this.props.match.params.id == 6) {
-            this.props.history.push("/");
-        }
+                console.log("userId is", this.state.userId);
+
+                if (this.props.match.params.id == this.state.userId) {
+                    this.props.history.push("/");
+                }
+            })
+            .catch(err => console.log("err in axios.get/otherprofile!", err));
     }
 
     render() {
         // const fullName = firstName + " " + lastName;
+        if (!this.state.firstName) {
+            return (
+                <div>
+                    <p>this user doesn't exist</p>
+                </div>
+            );
+        }
+
         return (
             <div>
                 <h1>This is Other Profile!</h1>

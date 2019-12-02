@@ -111,13 +111,15 @@ app.get("/user.json", (req, res) => {
 
 app.get("/user.json/:id", (req, res) => {
     let { id } = req.params;
-    // console.log("req. body other profile is: ", req.body);
+    console.log("req. body other profile is: ", req.body);
+
     db.getUserInfo(id)
         .then(({ rows }) => {
             console.log(
                 "app.get: get other user profile is successful!!",
                 rows
             );
+            rows[0].userId = req.session.userId;
             res.json(createUserResponse(rows[0]));
         })
         .catch(err => console.log("error in app.get/user/:id...", err));
@@ -167,9 +169,11 @@ app.listen(8080, function() {
 
 function createUserResponse(dbUser) {
     return {
+        id: dbUser.id,
         firstName: dbUser.first_name,
         lastName: dbUser.last_name,
         profilePicUrl: dbUser.image_url,
-        biography: dbUser.biography
+        biography: dbUser.biography,
+        userId: dbUser.userId
     };
 }
