@@ -40,9 +40,9 @@ exports.updateUserBio = function updateUserBio(biography, id) {
     );
 };
 
-exports.getOtherUsers = function getOtherUsers(val) {
+exports.getOtherUsers = function getOtherUsers(firstName) {
     return db.query(
-        "SELECT first_name, last_name, image_url FROM users ORDER BY id DESC LIMIT 3",
-        [val]
+        "SELECT * FROM users WHERE first_name ILIKE $1 ORDER BY id DESC LIMIT 3",
+        [firstName + "%"]
     );
 };

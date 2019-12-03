@@ -109,17 +109,23 @@ app.get("/user.json", (req, res) => {
         .catch(err => console.log("error in app.get/user...", err));
 });
 
-app.get("/users.json", (req, res) => {
-    console.log("users req.body: ", req.body);
-    db.getOtherUsers()
+app.get("/users/:firstName", (req, res) => {
+    // let { input } = req.params;
+    let { firstName } = req.params;
+
+    console.log("users req.body: ", firstName);
+
+    db.getOtherUsers(firstName)
         .then(({ rows }) => {
             console.log("successful made it to getOtherUsers!");
-            res.json(createUserResponse(rows[0]));
+            console.log("db result; ", rows[0]);
+
+            if (rows[0]) res.json(createUserResponse(rows[0]));
         })
         .catch(err => console.log("err in app.get/users:getOtherUsers", err));
 });
 
-app.get("/user.json/:id", (req, res) => {
+app.get("/user/:id.json", (req, res) => {
     let { id } = req.params;
     console.log("req. body other profile is: ", req.body);
 
@@ -152,7 +158,7 @@ app.post("/update-bio", (req, res) => {
     db.updateUserBio(req.body.biography, req.session.userId)
         .then(({ rows }) => {
             console.log("app.post: update biography is successful!", rows);
-            res.json(createUserResponse(rows[0]));
+            if (rows[0]) res.json(createUserResponse(rows[0]));
         })
         .catch(err => console.log("err in app.post/update-bio", err));
 });

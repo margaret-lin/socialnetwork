@@ -1,29 +1,40 @@
 import React, { useState, useEffect } from "react";
-import Axios from "axios";
+import axios from "./axios";
 
 export function FindPeople() {
-    const [users, setUsers] = useState({
-        firstName: "",
-        lastName: "",
-        profilePicUrl: ""
-    });
+    const [user, setUser] = useState([]);
     const [input, setInput] = useState("");
 
+    console.log(user, input);
+
+    if (!user) {
+        return null;
+    }
+
     useEffect(() => {
-        async () => {
-            const { data } = await axios.get("/users.json");
-            setUsers(data);
+        let stop = false;
+
+        (async () => {
+            const { data } = await axios.get(`/users/${input}`);
+            if (!stop) {
+                setUser(data);
+            }
+        })();
+
+        return () => {
+            stop = true;
         };
-    });
+    }, [input]);
 
     return (
         <>
+            <p>Hey!!! find someone now!</p>
             <p>
-                {users.firstName}
-                {users.lastName}
+                {user.firstName}
+                {user.lastName}
             </p>
-            <p>{users.bio}</p>
-            <input type="text" />
+            <p>{user.biography}</p>
+            <input type="text" onChange={e => setInput(e.target.value)} />
         </>
     );
 }
