@@ -109,6 +109,16 @@ app.get("/user.json", (req, res) => {
         .catch(err => console.log("error in app.get/user...", err));
 });
 
+app.get("/users.json", (req, res) => {
+    console.log("users req.body: ", req.body);
+    db.getOtherUsers()
+        .then(({ rows }) => {
+            console.log("successful made it to getOtherUsers!");
+            res.json(createUserResponse(rows[0]));
+        })
+        .catch(err => console.log("err in app.get/users:getOtherUsers", err));
+});
+
 app.get("/user.json/:id", (req, res) => {
     let { id } = req.params;
     console.log("req. body other profile is: ", req.body);

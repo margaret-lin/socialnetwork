@@ -39,3 +39,10 @@ exports.updateUserBio = function updateUserBio(biography, id) {
         [biography, id]
     );
 };
+
+exports.getOtherUsers = function getOtherUsers(val) {
+    return db.query(
+        "SELECT first_name, last_name, image_url FROM users ORDER BY id DESC LIMIT 3",
+        [val]
+    );
+};

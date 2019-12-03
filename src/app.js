@@ -5,6 +5,7 @@ import { ProfilePic } from "./profile-pic";
 import Uploader from "./uploader";
 import { Profile } from "./profile";
 import { OtherProfile } from "./other-profile";
+import { FindPeople } from "./find-people";
 
 export class App extends React.Component {
     constructor() {
@@ -101,6 +102,12 @@ export class App extends React.Component {
                                     history={props.history}
                                 />
                             )}
+                        />
+
+                        <Route
+                            exact
+                            path="/findpeople"
+                            component={FindPeople}
                         />
                     </div>
                 </BrowserRouter>
