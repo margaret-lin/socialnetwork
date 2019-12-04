@@ -5,7 +5,7 @@ export function FindPeople() {
     const [user, setUser] = useState([]);
     const [input, setInput] = useState("");
 
-    console.log(user, input);
+    console.log("input: ", input);
 
     if (!user) {
         return null;
@@ -29,6 +29,10 @@ export function FindPeople() {
     return (
         <>
             <p>Hey!!! find someone now!</p>
+            <img
+                src={user.ProfilePicUrl}
+                alt={`${user.firstName} ${user.lastName}`}
+            />
             <p>
                 {user.firstName}
                 {user.lastName}
