@@ -50,3 +50,20 @@ exports.getOtherUsers = function getOtherUsers(firstName) {
 exports.showOtherUsers = function showOtherUsers() {
     return db.query("SELECT * FROM users ORDER BY id DESC LIMIT 3");
 };
+
+exports.checkFriendshipstatus = function checkFriendshipstatus(
+    receiverId,
+    senderId
+) {
+    return db.query(
+        "SELECT * FROM friendships WHERE (receiver_id = $1 AND sender_id = $2) OR (receiver_id = $2 AND sender_id = $1)",
+        [receiverId, senderId]
+    );
+};
+
+exports.sendFriendRequest = function sendFriendRequest(receiverId, senderId) {
+    return db.query(
+        "INSERT INTO friendships (receiver_id, sender_id) VALUES ($1, $2) RETURNING *",
+        [receiverId, senderId]
+    );
+};

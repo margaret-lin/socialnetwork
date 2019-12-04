@@ -110,15 +110,14 @@ app.get("/user.json", (req, res) => {
 });
 
 app.get("/users/:firstName", (req, res) => {
-    // let { input } = req.params;
     let { firstName } = req.params;
 
     console.log("users req.body: ", firstName);
 
     db.getOtherUsers(firstName)
         .then(({ rows }) => {
-            console.log("successful made it to getOtherUsers!");
-            console.log("db.getOtherUsers result; ", rows);
+            // console.log("successful made it to getOtherUsers!");
+            // console.log("db.getOtherUsers result; ", rows);
 
             if (rows[0]) {
                 res.json(rows);
@@ -135,7 +134,7 @@ app.get("/users", (req, res) => {
 
             res.json(rows);
         })
-        .catch(err => console.log("err in USERS.json", err));
+        .catch(err => console.log("err in app.get/USERS", err));
 });
 
 app.get("/user/:id.json", (req, res) => {
@@ -152,6 +151,56 @@ app.get("/user/:id.json", (req, res) => {
             res.json(createUserResponse(rows[0]));
         })
         .catch(err => console.log("error in app.get/user/:id...", err));
+});
+
+app.get("/friendshipstatus/:id", (req, res) => {
+    let { id } = req.params;
+    let receiverId = id;
+    let senderId = req.session.userId;
+
+    db.checkFriendshipstatus(receiverId, senderId)
+        .then(({ rows }) => {
+            console.log("app.get:get to friendshipstatus", rows);
+
+            // - if they don't have a row: make the server send back the appropriate button text
+            if (!rows[0]) {
+                res.json({
+                    buttonText: "Send Friend Request"
+                });
+            }
+
+            // - if have a row and accepted is TRUE: should send back appropriate button text
+            if (rows[0] && rows[0].accepted) {
+                res.json({ buttonText: "Accept Friend Request" });
+            }
+
+            // - if have a row and accepted is TRUE: should send back appropriate button text
+            if (rows[0] && !rows[0].accepted) {
+                res.json({ buttonText: "Pending" });
+
+                // - if PENDING: check if the sender is the same as the logged in user. If yes -> CANCEL friend request
+                // - if PENDING: not logged in user then should be ACCEPT friend request
+                // if (senderId === senderId) {
+                //     db.cancelFriendRequest;
+                // } else if (senderID !== senderId) {
+                //     db.acceptFriendRequest;
+                // }
+            }
+        })
+        .catch(err => console.log("err in app.get/friendshipstatus", err));
+});
+
+app.post("/friendshipstatus/:id", (req, res) => {
+    let { id } = req.params;
+    let receiverId = id;
+    let senderId = req.session.userId;
+
+    db.sendFriendRequest(receiverId, senderId)
+        .then(({ rows }) => {
+            console.log("back: send Friend request!", rows);
+            res.json(rows[0]);
+        })
+        .catch(err => console.log("err in app.post/friendshipstatus", err));
 });
 
 app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {

@@ -4,6 +4,7 @@ import axios from "./axios";
 export function FindPeople() {
     const [user, setUser] = useState([]);
     const [input, setInput] = useState("");
+    const [mostRecentUsers, setMostRecentUsers] = useState([]);
 
     console.log("input: ", input);
 
@@ -23,11 +24,28 @@ export function FindPeople() {
         };
     }, [input]);
 
+    useEffect(() => {
+        let stop = false;
+
+        (async () => {
+            const { data } = await axios.get("/users");
+            console.log("data is", data);
+            if (!stop) {
+                setMostRecentUsers(data);
+            }
+        })();
+
+        return () => {
+            stop = true;
+        };
+    }, [input]);
+
     if (user) {
         return (
             <>
                 <p>Hey!!! find someone now!</p>
                 <input type="text" onChange={e => setInput(e.target.value)} />
+
                 <div>
                     {user.map(user => (
                         <div key={user.id}>
@@ -43,7 +61,25 @@ export function FindPeople() {
                         </div>
                     ))}
                 </div>
+
+                {/* <div>
+                    {mostRecentUsers.map(user => (
+                        <div key={user.id}>
+                            <img
+                                src={mostRecentUsers.image_url}
+                                alt={`${mostRecentUsers.first_name} ${mostRecentUsers.last_name}`}
+                            />
+                            <p>
+                                {mostRecentUsers.first_name}
+                                {mostRecentUsers.last_name}
+                            </p>
+                            <p>{mostRecentUsers.biography}</p>
+                        </div>
+                    ))}
+                </div> */}
             </>
         );
+    } else {
+        return null;
     }
 }
