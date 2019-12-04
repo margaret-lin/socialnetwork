@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "./axios";
+import { Friendshipbutton } from "./friendship-button";
 
 export class OtherProfile extends React.Component {
     constructor() {
@@ -9,12 +10,12 @@ export class OtherProfile extends React.Component {
 
     componentDidMount() {
         // figure out the id of the user...
-        console.log("this.props.match.params.id: ", this.props.match.params.id);
+        // console.log("this.props.match.params.id: ", this.props.match.params.id);
 
         axios
-            .get(`/user.json/${this.props.match.params.id}`)
+            .get(`/user/${this.props.match.params.id}.json`)
             .then(({ data }) => {
-                console.log("user other data", data);
+                // console.log("user other data", data);
                 this.setState({
                     id: data.id,
                     firstName: data.firstName,
@@ -24,7 +25,7 @@ export class OtherProfile extends React.Component {
                     userId: data.userId
                 });
 
-                console.log("userId is", this.state.userId);
+                console.log("current userId is", this.state.userId);
 
                 if (this.props.match.params.id == this.state.userId) {
                     this.props.history.push("/");
@@ -52,6 +53,7 @@ export class OtherProfile extends React.Component {
                         src={this.state.profilePicUrl}
                         alt={this.state.firstName}
                     />
+                    <Friendshipbutton otherId={this.props.match.params.id} />
                     <p>{this.state.firstName}</p>
                     <p>{this.state.lastName}</p>
                     <p>{this.state.biography}</p>

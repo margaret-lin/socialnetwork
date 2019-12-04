@@ -46,3 +46,7 @@ exports.getOtherUsers = function getOtherUsers(firstName) {
         [firstName + "%"]
     );
 };
+
+exports.showOtherUsers = function showOtherUsers() {
+    return db.query("SELECT * FROM users ORDER BY id DESC LIMIT 3");
+};

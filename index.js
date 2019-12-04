@@ -118,11 +118,24 @@ app.get("/users/:firstName", (req, res) => {
     db.getOtherUsers(firstName)
         .then(({ rows }) => {
             console.log("successful made it to getOtherUsers!");
-            console.log("db result; ", rows[0]);
+            console.log("db.getOtherUsers result; ", rows);
 
-            if (rows[0]) res.json(createUserResponse(rows[0]));
+            if (rows[0]) {
+                res.json(rows);
+            }
         })
         .catch(err => console.log("err in app.get/users:getOtherUsers", err));
+});
+
+app.get("/users", (req, res) => {
+    db.showOtherUsers()
+        .then(({ rows }) => {
+            console.log("successful made it to showOtherUsers");
+            console.log("db.showOtherUsers result; ", rows);
+
+            res.json(rows);
+        })
+        .catch(err => console.log("err in USERS.json", err));
 });
 
 app.get("/user/:id.json", (req, res) => {

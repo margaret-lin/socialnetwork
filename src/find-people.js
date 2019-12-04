@@ -7,15 +7,12 @@ export function FindPeople() {
 
     console.log("input: ", input);
 
-    if (!user) {
-        return null;
-    }
-
     useEffect(() => {
         let stop = false;
 
         (async () => {
             const { data } = await axios.get(`/users/${input}`);
+            console.log("data is", data);
             if (!stop) {
                 setUser(data);
             }
@@ -26,19 +23,27 @@ export function FindPeople() {
         };
     }, [input]);
 
-    return (
-        <>
-            <p>Hey!!! find someone now!</p>
-            <img
-                src={user.ProfilePicUrl}
-                alt={`${user.firstName} ${user.lastName}`}
-            />
-            <p>
-                {user.firstName}
-                {user.lastName}
-            </p>
-            <p>{user.biography}</p>
-            <input type="text" onChange={e => setInput(e.target.value)} />
-        </>
-    );
+    if (user) {
+        return (
+            <>
+                <p>Hey!!! find someone now!</p>
+                <input type="text" onChange={e => setInput(e.target.value)} />
+                <div>
+                    {user.map(user => (
+                        <div key={user.id}>
+                            <img
+                                src={user.image_url}
+                                alt={`${user.first_name} ${user.last_name}`}
+                            />
+                            <p>
+                                {user.first_name}
+                                {user.last_name}
+                            </p>
+                            <p>{user.biography}</p>
+                        </div>
+                    ))}
+                </div>
+            </>
+        );
+    }
 }
