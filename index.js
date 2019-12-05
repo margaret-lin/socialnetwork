@@ -165,7 +165,6 @@ app.get("/friendshipstatus/:otherUserId", (req, res) => {
             const pending = rows[0] && !rows[0].accepted;
             const accepted = rows[0] && rows[0].accepted;
 
-            // check if someone sent logged in user a request
             if (!none && currentUserId === rows[0].receiver_id) {
                 if (pending) {
                     res.json({ buttonText: "Accept Friend Request" });
@@ -174,7 +173,6 @@ app.get("/friendshipstatus/:otherUserId", (req, res) => {
                     res.json({ buttonText: "Unfriend" });
                 }
             } else {
-                // check if logged in user's sent request is accepted
                 if (none) {
                     res.json({
                         buttonText: "Send Friend Request"
@@ -201,65 +199,22 @@ app.post("/friendshipstatus/:otherUserId", (req, res) => {
             const pending = rows[0] && !rows[0].accepted;
             const accepted = rows[0] && rows[0].accepted;
 
-            // check if someone sent logged in user a request
             if (!none && currentUserId === rows[0].receiver_id) {
                 if (pending) {
-                    db.acceptFriendRequest(currentUserId, otherUserId).then(
-                        () => {
-                            res.json({
-                                buttonText: "Unfriend",
-                                receiver_id: currentUserId,
-                                sender_id: otherUserId
-                            });
-                        }
-                    );
+                    acceptFriendRequest(currentUserId, otherUserId, res);
                 }
                 if (accepted) {
-                    db.cancelFriendRequest(currentUserId, otherUserId).then(
-                        () =>
-                            res.json({
-                                // unfriend
-                                buttonText: "Send Friend Request",
-                                receiver_id: currentUserId,
-                                sender_id: otherUserId
-                            })
-                    );
+                    unfriendOrCancel(currentUserId, otherUserId, res);
                 }
             } else {
                 if (none) {
-                    db.sendFriendRequest(otherUserId, currentUserId)
-                        .then(() =>
-                            res.json({
-                                buttonText: "Cancel Friend Request",
-                                receiver_id: currentUserId,
-                                sender_id: otherUserId
-                            })
-                        )
-                        .catch(err =>
-                            console.log("err in app.post/friendshipstatus", err)
-                        );
+                    sendFriendRequest(currentUserId, otherUserId, res);
                 }
                 if (pending) {
-                    db.cancelFriendRequest(currentUserId, otherUserId).then(
-                        () =>
-                            res.json({
-                                // cancel friend request
-                                buttonText: "Send Friend Request",
-                                receiver_id: currentUserId,
-                                sender_id: otherUserId
-                            })
-                    );
+                    unfriendOrCancel(currentUserId, otherUserId, res);
                 }
                 if (accepted) {
-                    db.cancelFriendRequest(otherUserId, currentUserId).then(
-                        () =>
-                            res.json({
-                                // unfriend
-                                buttonText: "Send Friend Request",
-                                receiver_id: currentUserId,
-                                sender_id: otherUserId
-                            })
-                    );
+                    unfriendOrCancel(otherUserId, currentUserId, res);
                 }
             }
         })
@@ -317,4 +272,30 @@ function createUserResponse(dbUser) {
         biography: dbUser.biography,
         userId: dbUser.userId
     };
+}
+
+function acceptFriendRequest(currentUserId, otherUserId, res) {
+    db.acceptFriendRequest(currentUserId, otherUserId).then(() => {
+        res.json({
+            buttonText: "Unfriend"
+        });
+    });
+}
+
+function unfriendOrCancel(currentUserId, otherUserId, res) {
+    db.cancelFriendRequest(currentUserId, otherUserId).then(() =>
+        res.json({
+            buttonText: "Send Friend Request"
+        })
+    );
+}
+
+function sendFriendRequest(receiverId, senderId, res) {
+    db.sendFriendRequest(senderId, receiverId)
+        .then(() =>
+            res.json({
+                buttonText: "Cancel Friend Request"
+            })
+        )
+        .catch(err => console.log("err in app.post/friendshipstatus", err));
 }
