@@ -47,13 +47,15 @@ export class OtherProfile extends React.Component {
         return (
             <div>
                 <h1>This is Other Profile!</h1>
-                <p>The current user ID is: {this.props.match.params.id}</p>
+                <p>This person's ID is: {this.props.match.params.id}</p>
                 <div>
                     <img
                         src={this.state.profilePicUrl}
                         alt={this.state.firstName}
                     />
-                    <Friendshipbutton otherId={this.props.match.params.id} />
+                    <Friendshipbutton
+                        otherUserId={this.props.match.params.id}
+                    />
                     <p>{this.state.firstName}</p>
                     <p>{this.state.lastName}</p>
                     <p>{this.state.biography}</p>

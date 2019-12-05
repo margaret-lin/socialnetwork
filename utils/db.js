@@ -67,3 +67,23 @@ exports.sendFriendRequest = function sendFriendRequest(receiverId, senderId) {
         [receiverId, senderId]
     );
 };
+
+exports.acceptFriendRequest = function acceptFriendRequest(
+    receiverId,
+    senderId
+) {
+    return db.query(
+        "UPDATE friendships SET accepted = TRUE WHERE receiver_id = $1 AND sender_id = $2 RETURNING *",
+        [receiverId, senderId]
+    );
+};
+
+exports.cancelFriendRequest = function cancelFriendRequest(
+    receiverId,
+    senderId
+) {
+    return db.query(
+        "DELETE FROM friendships WHERE (receiver_id = $1 AND sender_id = $2) OR (receiver_id = $2 AND sender_id = $1)",
+        [receiverId, senderId]
+    );
+};

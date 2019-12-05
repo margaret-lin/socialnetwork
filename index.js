@@ -153,54 +153,117 @@ app.get("/user/:id.json", (req, res) => {
         .catch(err => console.log("error in app.get/user/:id...", err));
 });
 
-app.get("/friendshipstatus/:id", (req, res) => {
-    let { id } = req.params;
-    let receiverId = id;
-    let senderId = req.session.userId;
+app.get("/friendshipstatus/:otherUserId", (req, res) => {
+    let { otherUserId } = req.params;
+    let currentUserId = req.session.userId;
 
-    db.checkFriendshipstatus(receiverId, senderId)
+    db.checkFriendshipstatus(otherUserId, currentUserId)
         .then(({ rows }) => {
             console.log("app.get:get to friendshipstatus", rows);
 
-            // - if they don't have a row: make the server send back the appropriate button text
-            if (!rows[0]) {
-                res.json({
-                    buttonText: "Send Friend Request"
-                });
-            }
+            const none = !rows[0];
+            const pending = rows[0] && !rows[0].accepted;
+            const accepted = rows[0] && rows[0].accepted;
 
-            // - if have a row and accepted is TRUE: should send back appropriate button text
-            if (rows[0] && rows[0].accepted) {
-                res.json({ buttonText: "Accept Friend Request" });
-            }
-
-            // - if have a row and accepted is TRUE: should send back appropriate button text
-            if (rows[0] && !rows[0].accepted) {
-                res.json({ buttonText: "Pending" });
-
-                // - if PENDING: check if the sender is the same as the logged in user. If yes -> CANCEL friend request
-                // - if PENDING: not logged in user then should be ACCEPT friend request
-                // if (senderId === senderId) {
-                //     db.cancelFriendRequest;
-                // } else if (senderID !== senderId) {
-                //     db.acceptFriendRequest;
-                // }
+            // check if someone sent logged in user a request
+            if (!none && currentUserId === rows[0].receiver_id) {
+                if (pending) {
+                    res.json({ buttonText: "Accept Friend Request" });
+                }
+                if (accepted) {
+                    res.json({ buttonText: "Unfriend" });
+                }
+            } else {
+                // check if logged in user's sent request is accepted
+                if (none) {
+                    res.json({
+                        buttonText: "Send Friend Request"
+                    });
+                }
+                if (pending) {
+                    res.json({ buttonText: "Cancel Friend Request" });
+                }
+                if (accepted) {
+                    res.json({ buttonText: "Unfriend" });
+                }
             }
         })
         .catch(err => console.log("err in app.get/friendshipstatus", err));
 });
 
-app.post("/friendshipstatus/:id", (req, res) => {
-    let { id } = req.params;
-    let receiverId = id;
-    let senderId = req.session.userId;
+app.post("/friendshipstatus/:otherUserId", (req, res) => {
+    let { otherUserId } = req.params;
+    let currentUserId = req.session.userId;
 
-    db.sendFriendRequest(receiverId, senderId)
+    db.checkFriendshipstatus(otherUserId, currentUserId)
         .then(({ rows }) => {
-            console.log("back: send Friend request!", rows);
-            res.json(rows[0]);
+            const none = !rows[0];
+            const pending = rows[0] && !rows[0].accepted;
+            const accepted = rows[0] && rows[0].accepted;
+
+            // check if someone sent logged in user a request
+            if (!none && currentUserId === rows[0].receiver_id) {
+                if (pending) {
+                    db.acceptFriendRequest(currentUserId, otherUserId).then(
+                        () => {
+                            res.json({
+                                buttonText: "Unfriend",
+                                receiver_id: currentUserId,
+                                sender_id: otherUserId
+                            });
+                        }
+                    );
+                }
+                if (accepted) {
+                    db.cancelFriendRequest(currentUserId, otherUserId).then(
+                        () =>
+                            res.json({
+                                // unfriend
+                                buttonText: "Send Friend Request",
+                                receiver_id: currentUserId,
+                                sender_id: otherUserId
+                            })
+                    );
+                }
+            } else {
+                if (none) {
+                    db.sendFriendRequest(otherUserId, currentUserId)
+                        .then(() =>
+                            res.json({
+                                buttonText: "Cancel Friend Request",
+                                receiver_id: currentUserId,
+                                sender_id: otherUserId
+                            })
+                        )
+                        .catch(err =>
+                            console.log("err in app.post/friendshipstatus", err)
+                        );
+                }
+                if (pending) {
+                    db.cancelFriendRequest(currentUserId, otherUserId).then(
+                        () =>
+                            res.json({
+                                // cancel friend request
+                                buttonText: "Send Friend Request",
+                                receiver_id: currentUserId,
+                                sender_id: otherUserId
+                            })
+                    );
+                }
+                if (accepted) {
+                    db.cancelFriendRequest(otherUserId, currentUserId).then(
+                        () =>
+                            res.json({
+                                // unfriend
+                                buttonText: "Send Friend Request",
+                                receiver_id: currentUserId,
+                                sender_id: otherUserId
+                            })
+                    );
+                }
+            }
         })
-        .catch(err => console.log("err in app.post/friendshipstatus", err));
+        .catch(err => console.log("err in app.get/friendshipstatus", err));
 });
 
 app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
