@@ -87,3 +87,10 @@ exports.cancelFriendRequest = function cancelFriendRequest(
         [receiverId, senderId]
     );
 };
+
+exports.getFriendAndWannabes = function getFriendAndWannabes(id) {
+    return db.query(
+        "SELECT users.id, first_name, last_name, image_url, accepted FROM friendships JOIN users ON (accepted = false AND receiver_id = $1 AND sender_id = users.id) OR (accepted = true AND receiver_id = $1 AND sender_id = users.id) OR (accepted = true AND sender_id = $1 AND receiver_id = users.id)",
+        [id]
+    );
+};

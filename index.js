@@ -159,7 +159,7 @@ app.get("/friendshipstatus/:otherUserId", (req, res) => {
 
     db.checkFriendshipstatus(otherUserId, currentUserId)
         .then(({ rows }) => {
-            console.log("app.get:get to friendshipstatus", rows);
+            // console.log("app.get:get to friendshipstatus", rows);
 
             const none = !rows[0];
             const pending = rows[0] && !rows[0].accepted;
@@ -220,6 +220,26 @@ app.post("/friendshipstatus/:otherUserId", (req, res) => {
         })
         .catch(err => console.log("err in app.get/friendshipstatus", err));
 });
+
+app.get("/friends-wannabes", (req, res) => {
+    db.getFriendAndWannabes(req.session.userId)
+        .then(({ rows }) => {
+            console.log("getFriendsAndWannabes", rows);
+            res.json(rows);
+        })
+        .catch(err => console.log("err in app.get friends-wannabes", err));
+});
+
+// app.post("/accept-friendship/:id", (req, res) => {
+//     let { id } = req.params;
+//     let currentUserId = req.session.userId;
+
+//     db.acceptFriendRequest(currentUserId, id).then(() => {
+//         res.json({
+//             buttonText: "Unfriend"
+//         });
+//     });
+// });
 
 app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
     const imageUrl = `${s3Url}${req.file.filename}`;

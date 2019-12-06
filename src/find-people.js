@@ -61,22 +61,6 @@ export function FindPeople() {
                         </div>
                     ))}
                 </div>
-
-                {/* <div>
-                    {mostRecentUsers.map(user => (
-                        <div key={user.id}>
-                            <img
-                                src={mostRecentUsers.image_url}
-                                alt={`${mostRecentUsers.first_name} ${mostRecentUsers.last_name}`}
-                            />
-                            <p>
-                                {mostRecentUsers.first_name}
-                                {mostRecentUsers.last_name}
-                            </p>
-                            <p>{mostRecentUsers.biography}</p>
-                        </div>
-                    ))}
-                </div> */}
             </>
         );
     } else {
