@@ -15,7 +15,7 @@ export function Friends() {
     const wannaBeFriends = useSelector(state => {
         return (
             state.friends &&
-            state.friends.filter(friends => friends.accepted === false)
+            state.friends.filter(friends => friends.accepted == false)
         );
     });
 
