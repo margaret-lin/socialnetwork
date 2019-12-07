@@ -15,7 +15,7 @@ export function Friends() {
     const wannaBeFriends = useSelector(state => {
         return (
             state.friends &&
-            state.friends.filter(friends => friends.accepted == false)
+            state.friends.filter(friends => friends.accepted === false)
         );
     });
 
@@ -30,7 +30,7 @@ export function Friends() {
     return (
         <>
             <div className="friends">
-                <p>friends are: </p>
+                <h3>Your friends are: </h3>
                 {friends.map(friend => (
                     <div key={friend.id}>
                         <img src={friend.image_url} />
@@ -38,7 +38,23 @@ export function Friends() {
                             {friend.first_name} {friend.last_name}
                         </p>
                         <button onClick={e => dispatch(unfriend(friend.id))}>
-                            button me!
+                            Unfriend
+                        </button>
+                    </div>
+                ))}
+                <h3>Who wants to be your friend:</h3>
+                {wannaBeFriends.map(friend => (
+                    <div key={friend.id}>
+                        <img src={friend.image_url} />
+                        <p>
+                            {friend.first_name} {friend.last_name}
+                        </p>
+                        <button
+                            onClick={e =>
+                                dispatch(acceptFriendRequest(friend.id))
+                            }
+                        >
+                            Accept
                         </button>
                     </div>
                 ))}

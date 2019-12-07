@@ -230,17 +230,6 @@ app.get("/friends-wannabes", (req, res) => {
         .catch(err => console.log("err in app.get friends-wannabes", err));
 });
 
-// app.post("/accept-friendship/:id", (req, res) => {
-//     let { id } = req.params;
-//     let currentUserId = req.session.userId;
-
-//     db.acceptFriendRequest(currentUserId, id).then(() => {
-//         res.json({
-//             buttonText: "Unfriend"
-//         });
-//     });
-// });
-
 app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
     const imageUrl = `${s3Url}${req.file.filename}`;
     console.log("imageUrl: ", imageUrl);
