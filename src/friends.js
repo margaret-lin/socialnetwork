@@ -33,7 +33,9 @@ export function Friends() {
                 <h3>Your friends are: </h3>
                 {friends.map(friend => (
                     <div key={friend.id}>
-                        <img src={friend.image_url} />
+                        <Link to={"/user/" + friend.id} className="link">
+                            <img src={friend.image_url} />
+                        </Link>
                         <p>
                             {friend.first_name} {friend.last_name}
                         </p>
@@ -45,7 +47,9 @@ export function Friends() {
                 <h3>Who wants to be your friend:</h3>
                 {wannaBeFriends.map(friend => (
                     <div key={friend.id}>
-                        <img src={friend.image_url} />
+                        <Link to={"/user/" + friend.id} className="link">
+                            <img src={friend.image_url} />
+                        </Link>
                         <p>
                             {friend.first_name} {friend.last_name}
                         </p>
