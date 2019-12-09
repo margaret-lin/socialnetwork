@@ -62,3 +62,10 @@ main {
     background-color: rgba(180, 141, 31, 0.836);
     height: 100%;
 }
+
+img {
+    height: 200px;
+    width: 150px;
+    object-fit: cover;
+    border-radius: 10px;
+}

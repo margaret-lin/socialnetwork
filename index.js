@@ -58,7 +58,25 @@ if (process.env.NODE_ENV != "production") {
     app.use("/bundle.js", (req, res) => res.sendFile(`${__dirname}/bundle.js`));
 }
 
-app.post("/register", (req, res) => {
+app.post("/register", async (req, res) => {
+    // try {
+    //     let hash = await hash(req.body.password);
+    //     let id = await db.createUser(
+    //         req.body.firstName,
+    //         req.body.lastName,
+    //         req.body.imageUrl,
+    //         req.body.biography,
+    //         req.body.email,
+    //         hash
+    //     );
+    //     req.session.userId = id;
+    //     res.json({
+    //         success: true
+    //     });
+    // } catch (err) {
+    //     console.log("err in app.post /register", err);
+    // }
+
     hash(req.body.password).then(hashedPassword =>
         db
             .createUser(
@@ -79,9 +97,28 @@ app.post("/register", (req, res) => {
     );
 });
 
-app.post("/login", (req, res) => {
+app.post("/login", async (req, res) => {
     let email = req.body.email;
     let inputPassword = req.body.password;
+
+    // try {
+    //     let { rows } = await db.getPassword(email);
+    //     let hashedPassword = rows[0].password;
+    //     req.session.userId = rows[0].id;
+    //     let match = await compare(inputPassword, hashedPassword);
+
+    //     if (match) {
+    //         res.json({
+    //             success: true
+    //         });
+    //     } else {
+    //         res.json({
+    //             error: true
+    //         });
+    //     }
+    // } catch {
+    //     console.log("err in compare pwd", err);
+    // }
 
     db.getPassword(email)
         .then(({ rows }) => {
