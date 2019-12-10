@@ -2,12 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom";
 import Welcome from "./welcome";
 import { App } from "./app";
-
 import { createStore, applyMiddleware } from "redux";
 import reduxPromise from "redux-promise";
 import { composeWithDevTools } from "redux-devtools-extension";
 import reducer from "./reducer";
 import { Provider } from "react-redux";
+import { init } from "./socket";
 
 const store = createStore(
     reducer,
@@ -17,6 +17,7 @@ const store = createStore(
 let welcome = <Welcome />;
 
 if (location.pathname != "/welcome") {
+    init(store);
     welcome = (
         <Provider store={store}>
             <App />

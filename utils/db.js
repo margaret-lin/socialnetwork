@@ -94,3 +94,18 @@ exports.getFriendAndWannabes = function getFriendAndWannabes(id) {
         [id]
     );
 };
+
+exports.getLastTenChatMessages = function getLastTenChatMessages() {
+    return db.query(
+        "select chats.id, chats.message, chats.sender_id, chats.created_at, users.first_name, users.last_name, users.image_url from chats join users on chats.sender_id = users.id order by created_at desc limit 10;"
+    );
+};
+
+exports.sendChatMessage = function sendChatMessage(id, msg) {
+    return db.query(
+        "INSERT INTO chats (sender_id, message) VALUES ($1, $2) RETURNING *",
+        [id, msg]
+    );
+};
+
+// "SELECT users.id, first_name, last_name, image_url, accepted FROM users RIGHT JOIN chats ON (users.id = chats.sender_id)",

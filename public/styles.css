@@ -69,3 +69,14 @@ img {
     object-fit: cover;
     border-radius: 10px;
 }
+.chat-logo {
+    height: 40px;
+    width: 40px;
+    object-fit: cover;
+    border-radius: 2px;
+}
+.chat-container {
+    height: 300px;
+    overflow-y: scroll;
+    border: 2px solid black;
+}

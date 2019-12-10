@@ -28,15 +28,20 @@ const uploader = multer({
 });
 const server = require("http").Server(app);
 const io = require("socket.io")(server, { origins: "localhost:8080" });
+const cookieSessionMiddleware = cookieSession({
+    secret: `I'm always angry.`,
+    maxAge: 1000 * 60 * 60 * 24 * 90
+});
 
 app.use(compression());
 app.use(express.json());
 
 app.use(express.urlencoded({ extended: false }));
 
-app.use(
-    cookieSession({ secret: `my secret`, maxAge: 1000 * 60 * 60 * 24 * 14 })
-);
+app.use(cookieSessionMiddleware);
+io.use(function(socket, next) {
+    cookieSessionMiddleware(socket.request, socket.request.res, next);
+});
 
 app.use(csurf());
 
@@ -307,8 +312,34 @@ app.get("*", (req, res) => {
     }
 });
 
-app.listen(8080, function() {
+server.listen(8080, function() {
     console.log("I'm listening....!!👂");
+});
+
+io.on("connection", function(socket) {
+    console.log(`socket with the id ${socket.id} is now connected`);
+    if (!socket.request.session.userId) {
+        return socket.disconnect(true);
+    }
+
+    const userId = socket.request.session.userId;
+
+    db.getLastTenChatMessages().then(({ rows }) => {
+        console.log("getting last 10 chat msgs:", rows);
+        io.sockets.emit("chatMessages", rows.reverse());
+    });
+
+    socket.on("My amazing chat msg", msg => {
+        console.log("msg on the server: ", msg);
+        console.log("userId: ", userId);
+        // look up info about the user..
+        // add it to the db
+        // emit this object out to everyone
+        db.sendChatMessage(userId, msg).then(({ rows }) => {
+            console.log("new message ", rows[0]);
+            io.sockets.emit("chatMessage", rows[0]);
+        });
+    });
 });
 
 function createUserResponse(dbUser) {

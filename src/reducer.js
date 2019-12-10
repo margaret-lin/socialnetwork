@@ -1,5 +1,5 @@
 export default function reducer(state = {}, action) {
-    console.log("state: ,", state);
+    console.log("before state: ,", state);
 
     if (action.type == "RECEIVE_FRIENDS") {
         state = {
@@ -27,10 +27,29 @@ export default function reducer(state = {}, action) {
     if (action.type == "UNFRIEND") {
         state = {
             ...state,
-            friends: state.friends.filter(user => user.id != action.id
-            )
+            friends: state.friends.filter(user => user.id != action.id)
         };
     }
+
+    if (action.type == "LOAD_MESSAGES") {
+        state = {
+            ...state,
+            chatMessages: action.chatMessages
+        };
+    }
+
+    if (action.type == "UPDATE_MESSAGES") {
+        let messages = state.chatMessages;
+
+        messages.push(action.newMessage);
+
+        state = {
+            ...state,
+            chatMessages: messages
+        };
+    }
+
+    console.log("after state: ,", state);
 
     return state;
 }

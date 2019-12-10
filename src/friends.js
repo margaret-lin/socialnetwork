@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
 
 export function Friends() {
     const dispatch = useDispatch();
-    const [spacing, setSpacing] = React.useState(2);
+    // const [spacing, setSpacing] = React.useState(2);
     const classes = useStyles();
 
     const friends = useSelector(state => {
