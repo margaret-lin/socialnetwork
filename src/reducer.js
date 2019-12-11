@@ -38,16 +38,15 @@ export default function reducer(state = {}, action) {
         };
     }
 
-    if (action.type == "UPDATE_MESSAGES") {
-        let messages = state.chatMessages;
+    // if (action.type == "UPDATE_MESSAGES") {
+    //     // let messages = state.chatMessages;
+    //     // messages.push(action.newMessage);
 
-        messages.push(action.newMessage);
-
-        state = {
-            ...state,
-            chatMessages: messages
-        };
-    }
+    //     state = {
+    //         ...state,
+    //         chatMessages: action.chatMessages
+    //     };
+    // }
 
     console.log("after state: ,", state);
 

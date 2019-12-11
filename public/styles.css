@@ -80,3 +80,9 @@ img {
     overflow-y: scroll;
     border: 2px solid black;
 }
+
+.chat-time {
+    color: gray;
+    font-size: 12px;
+    font-style: italic;
+}

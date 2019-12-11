@@ -325,19 +325,14 @@ io.on("connection", function(socket) {
     const userId = socket.request.session.userId;
 
     db.getLastTenChatMessages().then(({ rows }) => {
-        console.log("getting last 10 chat msgs:", rows);
         io.sockets.emit("chatMessages", rows.reverse());
     });
 
-    socket.on("My amazing chat msg", msg => {
-        console.log("msg on the server: ", msg);
-        console.log("userId: ", userId);
-        // look up info about the user..
-        // add it to the db
-        // emit this object out to everyone
-        db.sendChatMessage(userId, msg).then(({ rows }) => {
-            console.log("new message ", rows[0]);
-            io.sockets.emit("chatMessage", rows[0]);
+    socket.on("my msg", msg => {
+        db.sendChatMessage(userId, msg).then(() => {
+            db.getLastTenChatMessages().then(({ rows }) => {
+                io.sockets.emit("chatMessage", rows.reverse());
+            });
         });
     });
 });

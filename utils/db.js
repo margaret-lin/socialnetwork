@@ -102,10 +102,8 @@ exports.getLastTenChatMessages = function getLastTenChatMessages() {
 };
 
 exports.sendChatMessage = function sendChatMessage(id, msg) {
-    return db.query(
-        "INSERT INTO chats (sender_id, message) VALUES ($1, $2) RETURNING *",
-        [id, msg]
-    );
+    return db.query("INSERT INTO chats (sender_id, message) VALUES ($1, $2)", [
+        id,
+        msg
+    ]);
 };
-
-// "SELECT users.id, first_name, last_name, image_url, accepted FROM users RIGHT JOIN chats ON (users.id = chats.sender_id)",
