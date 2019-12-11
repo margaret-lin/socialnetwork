@@ -1,10 +1,8 @@
 import axios from "./axios";
-import { init } from "./socket";
 
 export async function friendsWannabes() {
     try {
         const { data } = await axios.get("/friends-wannabes");
-        console.log("friendsWannabes is: ", data);
         return {
             type: "RECEIVE_FRIENDS",
             friends: data
@@ -40,8 +38,6 @@ export async function unfriend(id) {
 }
 
 export async function chatMessages(messages) {
-    console.log("YES!!! all chatMessages", messages);
-
     return {
         type: "LOAD_MESSAGES",
         chatMessages: messages
@@ -49,10 +45,22 @@ export async function chatMessages(messages) {
 }
 
 export async function chatMessage(message) {
-    console.log("YES!!! new chatMessage");
-
     return {
         type: "LOAD_MESSAGES",
         chatMessages: message
+    };
+}
+
+export async function onlineUsers(users) {
+    return {
+        type: "ONLINE_USERS",
+        onlineUsers: users
+    };
+}
+
+export async function notification(request) {
+    return {
+        type: "SHOW_NOTIFICATION",
+        notification: request
     };
 }

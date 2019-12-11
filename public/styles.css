@@ -5,6 +5,7 @@ body {
 
 main {
     text-align: center;
+    position: relative;
 }
 
 .input-field {
@@ -85,4 +86,15 @@ img {
     color: gray;
     font-size: 12px;
     font-style: italic;
+}
+
+.notif-box {
+    position: fixed;
+    background-color: rgba(228, 228, 228, 0.904);
+    height: 100px;
+    width: 200px;
+    left: 0;
+    top: 0;
+    border: black 1px solid;
+    border-radius: 5px;
 }

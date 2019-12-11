@@ -1,5 +1,10 @@
 import * as io from "socket.io-client";
-import { chatMessages, chatMessage } from "./actions";
+import {
+    chatMessages,
+    chatMessage,
+    onlineUsers,
+    notification
+} from "./actions";
 
 export let socket;
 
@@ -10,5 +15,9 @@ export const init = store => {
         socket.on("chatMessages", msgs => store.dispatch(chatMessages(msgs)));
 
         socket.on("chatMessage", msg => store.dispatch(chatMessage(msg)));
+
+        socket.on("onlineUsers", users => store.dispatch(onlineUsers(users)));
+
+        socket.on("notification", elem => store.dispatch(notification(elem)));
     }
 };

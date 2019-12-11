@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import axios from "./axios";
 import { socket } from "./socket";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 export function Chat() {
     const elemRef = useRef();

@@ -156,8 +156,6 @@ app.get("/user.json", (req, res) => {
 app.get("/users/:firstName", (req, res) => {
     let { firstName } = req.params;
 
-    console.log("users req.body: ", firstName);
-
     db.getOtherUsers(firstName)
         .then(({ rows }) => {
             // console.log("successful made it to getOtherUsers!");
@@ -173,9 +171,6 @@ app.get("/users/:firstName", (req, res) => {
 app.get("/users", (req, res) => {
     db.showOtherUsers()
         .then(({ rows }) => {
-            console.log("successful made it to showOtherUsers");
-            console.log("db.showOtherUsers result; ", rows);
-
             res.json(rows);
         })
         .catch(err => console.log("err in app.get/USERS", err));
@@ -183,14 +178,9 @@ app.get("/users", (req, res) => {
 
 app.get("/user/:id.json", (req, res) => {
     let { id } = req.params;
-    console.log("req. body other profile is: ", req.body);
 
     db.getUserInfo(id)
         .then(({ rows }) => {
-            console.log(
-                "app.get: get other user profile is successful!!",
-                rows
-            );
             rows[0].userId = req.session.userId;
             res.json(createUserResponse(rows[0]));
         })
@@ -203,8 +193,6 @@ app.get("/friendshipstatus/:otherUserId", (req, res) => {
 
     db.checkFriendshipstatus(otherUserId, currentUserId)
         .then(({ rows }) => {
-            // console.log("app.get:get to friendshipstatus", rows);
-
             const none = !rows[0];
             const pending = rows[0] && !rows[0].accepted;
             const accepted = rows[0] && rows[0].accepted;
@@ -268,7 +256,6 @@ app.post("/friendshipstatus/:otherUserId", (req, res) => {
 app.get("/friends-wannabes", (req, res) => {
     db.getFriendAndWannabes(req.session.userId)
         .then(({ rows }) => {
-            console.log("getFriendsAndWannabes", rows);
             res.json(rows);
         })
         .catch(err => console.log("err in app.get friends-wannabes", err));
@@ -276,21 +263,17 @@ app.get("/friends-wannabes", (req, res) => {
 
 app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
     const imageUrl = `${s3Url}${req.file.filename}`;
-    console.log("imageUrl: ", imageUrl);
 
     db.updateUserImage(imageUrl, req.session.userId)
         .then(({ rows }) => {
-            console.log("updateUserImage successful!!", rows);
             res.json(createUserResponse(rows[0]));
         })
         .catch(err => console.log("err in updateUserImage back: ", err));
 });
 
 app.post("/update-bio", (req, res) => {
-    console.log("req.body update-bio is: ", req.body);
     db.updateUserBio(req.body.biography, req.session.userId)
         .then(({ rows }) => {
-            console.log("app.post: update biography is successful!", rows);
             if (rows[0]) res.json(createUserResponse(rows[0]));
         })
         .catch(err => console.log("err in app.post/update-bio", err));
@@ -316,13 +299,18 @@ server.listen(8080, function() {
     console.log("I'm listening....!!👂");
 });
 
+let onlineUsers = {};
+
 io.on("connection", function(socket) {
     console.log(`socket with the id ${socket.id} is now connected`);
     if (!socket.request.session.userId) {
         return socket.disconnect(true);
     }
-
     const userId = socket.request.session.userId;
+
+    onlineUsers[socket.id] = userId;
+
+    console.log("onlineUser", onlineUsers);
 
     db.getLastTenChatMessages().then(({ rows }) => {
         io.sockets.emit("chatMessages", rows.reverse());
@@ -335,6 +323,24 @@ io.on("connection", function(socket) {
             });
         });
     });
+
+    socket.on("who are online", () => {
+        let ids = Object.values(onlineUsers);
+        console.log("id is", ids);
+
+        db.getUserList(ids)
+            .then(({ rows }) => {
+                console.log("onlineuser rows: ", rows);
+                io.sockets.emit("onlineUsers", rows);
+            })
+            .catch(err => console.log("err in socket on getUserList", err));
+    });
+
+    socket.on("disconnect", () => {
+        delete onlineUsers[socket.id];
+    });
+
+    // socket.on("notification", () => console.log("socket notification is on.."));
 });
 
 function createUserResponse(dbUser) {

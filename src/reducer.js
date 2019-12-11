@@ -1,6 +1,4 @@
 export default function reducer(state = {}, action) {
-    console.log("before state: ,", state);
-
     if (action.type == "RECEIVE_FRIENDS") {
         state = {
             ...state,
@@ -38,17 +36,21 @@ export default function reducer(state = {}, action) {
         };
     }
 
-    // if (action.type == "UPDATE_MESSAGES") {
-    //     // let messages = state.chatMessages;
-    //     // messages.push(action.newMessage);
+    if (action.type == "ONLINE_USERS") {
+        state = {
+            ...state,
+            onlineUsers: action.onlineUsers
+        };
+    }
 
-    //     state = {
-    //         ...state,
-    //         chatMessages: action.chatMessages
-    //     };
-    // }
+    if (action.type == "SHOW_NOTIFICATION") {
+        state = {
+            ...state,
+            notification: action.notification
+        };
+    }
 
-    console.log("after state: ,", state);
+    // console.log("after state: ,", state);
 
     return state;
 }

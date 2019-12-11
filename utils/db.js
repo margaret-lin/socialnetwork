@@ -97,7 +97,7 @@ exports.getFriendAndWannabes = function getFriendAndWannabes(id) {
 
 exports.getLastTenChatMessages = function getLastTenChatMessages() {
     return db.query(
-        "select chats.id, chats.message, chats.sender_id, chats.created_at, users.first_name, users.last_name, users.image_url from chats join users on chats.sender_id = users.id order by created_at desc limit 10;"
+        "SELECT chats.id, chats.message, chats.sender_id, chats.created_at, users.first_name, users.last_name, users.image_url FROM chats JOIN users ON chats.sender_id = users.id ORDER BY created_at DESC LIMIT 10;"
     );
 };
 
@@ -106,4 +106,8 @@ exports.sendChatMessage = function sendChatMessage(id, msg) {
         id,
         msg
     ]);
+};
+
+exports.getUserList = function getUserList(ids) {
+    return db.query("SELECT * FROM users WHERE id = ANY($1)", [ids]);
 };

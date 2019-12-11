@@ -8,6 +8,8 @@ import { OtherProfile } from "./other-profile";
 import { FindPeople } from "./find-people";
 import { Friends } from "./friends";
 import { Chat } from "./chat-encounter";
+import { Notification } from "./notification";
+import { OnlineUsers } from "./online-users";
 
 export class App extends React.Component {
     constructor() {
@@ -111,8 +113,15 @@ export class App extends React.Component {
                         />
                         <Route exact path="/friends" component={Friends} />
                         <Route exact path="/chat" component={Chat} />
+                        <Route
+                            exact
+                            path="/onlineusers"
+                            component={OnlineUsers}
+                        />
                     </div>
                 </BrowserRouter>
+
+                {/* <Notification /> */}
                 {this.state.uploaderIsVisible && (
                     <Uploader refreshProfilePic={this.refreshProfilePic} />
                 )}
