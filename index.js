@@ -315,6 +315,26 @@ io.on("connection", function(socket) {
 
     onlineUsers[socket.id] = userId;
 
+    let newUser = true;
+    for (let key in onlineUsers) {
+        console.log("the key id", onlineUsers[key]);
+
+        if (onlineUsers[key] == userId) {
+            console.log("the USER id", userId);
+            newUser = false;
+            break;
+        }
+    }
+
+    if (newUser) {
+        db.getUserList([userId])
+            .then(({ rows }) => {
+                console.log("onlineuser rows: ", rows[0]);
+                io.sockets.emit("connectedUser", rows[0]);
+            })
+            .catch(err => console.log("err in socket on getUserList", err));
+    }
+
     console.log("onlineUser", onlineUsers);
 
     db.getLastTenChatMessages().then(({ rows }) => {

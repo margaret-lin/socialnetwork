@@ -43,6 +43,13 @@ export default function reducer(state = {}, action) {
         };
     }
 
+    if (action.type == "CONNECTED_USER") {
+        state = {
+            ...state,
+            onlineUsers: [...state.onlineUsers, action.connectedUser]
+        };
+    }
+
     if (action.type == "DISCONNECT_USER") {
         state = {
             ...state,

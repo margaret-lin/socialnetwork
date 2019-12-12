@@ -58,10 +58,17 @@ export async function onlineUsers(users) {
     };
 }
 
-export async function disconnectUser(user) {
+export async function connectedUser(user) {
+    return {
+        type: "CONNECTED_USER",
+        connectedUser: user
+    };
+}
+
+export async function disconnectUser(userId) {
     return {
         type: "DISCONNECT_USER",
-        disconnectUser: user
+        disconnectUser: userId
     };
 }
 
