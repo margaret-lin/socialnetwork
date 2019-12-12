@@ -43,6 +43,13 @@ export default function reducer(state = {}, action) {
         };
     }
 
+    if (action.type == "DISCONNECT_USER") {
+        state = {
+            ...state,
+            disconnectUser: action.disconnectUser
+        };
+    }
+
     if (action.type == "SHOW_NOTIFICATION") {
         state = {
             ...state,

@@ -3,6 +3,7 @@ import {
     chatMessages,
     chatMessage,
     onlineUsers,
+    disconnectUser,
     notification
 } from "./actions";
 
@@ -18,6 +19,10 @@ export const init = store => {
 
         socket.on("onlineUsers", users => store.dispatch(onlineUsers(users)));
 
-        socket.on("notification", elem => store.dispatch(notification(elem)));
+        socket.on("disconnectUser", user =>
+            store.dispatch(disconnectUser(user))
+        );
+
+        // socket.on("notification", elem => store.dispatch(notification(elem)));
     }
 };

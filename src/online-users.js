@@ -5,9 +5,11 @@ import { useSelector } from "react-redux";
 
 export function OnlineUsers() {
     const onlineUsers = useSelector(state => state && state.onlineUsers);
+    const disconnectUser = useSelector(state => state && state.disconnectUser);
 
     useEffect(() => {
         socket.emit("who are online");
+        socket.emit("disconnect");
     }, []);
 
     return (

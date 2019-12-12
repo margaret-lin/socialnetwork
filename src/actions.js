@@ -58,6 +58,13 @@ export async function onlineUsers(users) {
     };
 }
 
+export async function disconnectUser(user) {
+    return {
+        type: "DISCONNECT_USER",
+        disconnectUser: user
+    };
+}
+
 export async function notification(request) {
     return {
         type: "SHOW_NOTIFICATION",

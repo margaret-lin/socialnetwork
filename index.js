@@ -338,6 +338,9 @@ io.on("connection", function(socket) {
 
     socket.on("disconnect", () => {
         delete onlineUsers[socket.id];
+        if (!Object.values(onlineUsers).includes(userId)) {
+            io.sockets.emit("disconnectUser", userId);
+        }
     });
 
     // socket.on("notification", () => console.log("socket notification is on.."));
