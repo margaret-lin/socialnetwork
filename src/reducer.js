@@ -1,4 +1,7 @@
-export default function reducer(state = {}, action) {
+export default function reducer(
+    state = { onlineUsers: [], notification: [] },
+    action
+) {
     if (action.type == "RECEIVE_FRIENDS") {
         state = {
             ...state,
@@ -62,11 +65,9 @@ export default function reducer(state = {}, action) {
     if (action.type == "SHOW_NOTIFICATION") {
         state = {
             ...state,
-            notification: action.notification
+            notification: [...state.notification, action.user]
         };
     }
-
-    // console.log("after state: ,", state);
 
     return state;
 }

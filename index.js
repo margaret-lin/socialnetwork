@@ -317,7 +317,7 @@ io.on("connection", function(socket) {
 
     let newUser = true;
     for (let key in onlineUsers) {
-        console.log("the key id", onlineUsers[key]);
+        // console.log("the key id", onlineUsers[key]);
 
         if (onlineUsers[key] == userId) {
             console.log("the USER id", userId);
@@ -368,7 +368,22 @@ io.on("connection", function(socket) {
         }
     });
 
-    // socket.on("notification", () => console.log("socket notification is on.."));
+    socket.on("new friend request", ({ receiverId, senderId }) => {
+        console.log(
+            "new friend request from receiverId " +
+                receiverId +
+                " to senderId " +
+                senderId
+        );
+
+        for (let key in onlineUsers) {
+            if (onlineUsers[key] == receiverId) {
+                db.getUserInfo(senderId).then(({ rows }) => {
+                    io.sockets.sockets[key].emit("notification", rows[0]);
+                });
+            }
+        }
+    });
 });
 
 function createUserResponse(dbUser) {

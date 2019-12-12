@@ -26,6 +26,6 @@ export const init = store => {
             store.dispatch(disconnectUser(user))
         );
 
-        // socket.on("notification", elem => store.dispatch(notification(elem)));
+        socket.on("notification", user => store.dispatch(notification(user)));
     }
 };

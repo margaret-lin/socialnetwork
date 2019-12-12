@@ -55,6 +55,7 @@ export class OtherProfile extends React.Component {
                     />
                     <Friendshipbutton
                         otherUserId={this.props.match.params.id}
+                        currentUserId={this.state.userId}
                     />
                     <p>{this.state.firstName}</p>
                     <p>{this.state.lastName}</p>

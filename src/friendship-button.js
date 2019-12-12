@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "./axios";
+import { socket } from "./socket";
 import Button from "@material-ui/core/Button";
 
-export function Friendshipbutton({ otherUserId }) {
+export function Friendshipbutton({ otherUserId, currentUserId }) {
     console.log("otherUserId in friendship button: ", otherUserId);
     const [buttonText, setButtonText] = useState("");
 
@@ -21,7 +22,12 @@ export function Friendshipbutton({ otherUserId }) {
         axios
             .post(`/friendshipstatus/${otherUserId}`, buttonText)
             .then(({ data }) => {
-                console.log("POST friendshipstatus data: ", data);
+                if (buttonText.toLowerCase().includes("send")) {
+                    socket.emit("new friend request", {
+                        senderId: currentUserId,
+                        receiverId: otherUserId
+                    });
+                }
 
                 setButtonText(data.buttonText);
             })
@@ -30,7 +36,6 @@ export function Friendshipbutton({ otherUserId }) {
 
     return (
         <div>
-            <p>hey im friendship button</p>
             <Button
                 variant="outlined"
                 color="primary"

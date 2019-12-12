@@ -156,10 +156,10 @@ export class App extends React.Component {
                             path="/onlineusers"
                             component={OnlineUsers}
                         />
+                        <Notification />
                     </div>
                 </BrowserRouter>
 
-                <Notification />
                 {this.state.uploaderIsVisible && (
                     <Uploader refreshProfilePic={this.refreshProfilePic} />
                 )}

@@ -72,9 +72,9 @@ export async function disconnectUser(userId) {
     };
 }
 
-export async function notification(request) {
+export async function notification(user) {
     return {
         type: "SHOW_NOTIFICATION",
-        notification: request
+        user: user
     };
 }

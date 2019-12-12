@@ -150,8 +150,8 @@ img {
 .notif-box {
     position: fixed;
     background-color: rgba(228, 228, 228, 0.904);
-    height: 100px;
-    width: 200px;
+    height: 150px;
+    width: 250px;
     left: 0;
     top: 0;
     border: black 1px solid;
