@@ -4,7 +4,6 @@ import axios from "./axios";
 export function FindPeople() {
     const [user, setUser] = useState([]);
     const [input, setInput] = useState("");
-    const [mostRecentUsers, setMostRecentUsers] = useState([]);
 
     console.log("input: ", input);
 
@@ -12,7 +11,7 @@ export function FindPeople() {
         let stop = false;
 
         (async () => {
-            const { data } = await axios.get(`/users/${input}`.json);
+            const { data } = await axios.get(`/users/${input}`);
             console.log("data is", data);
             if (!stop) {
                 setUser(data);
@@ -24,26 +23,10 @@ export function FindPeople() {
         };
     }, [input]);
 
-    useEffect(() => {
-        let stop = false;
-
-        (async () => {
-            const { data } = await axios.get("/users.json");
-            console.log("data is", data);
-            if (!stop) {
-                setMostRecentUsers(data);
-            }
-        })();
-
-        return () => {
-            stop = true;
-        };
-    }, [input]);
-
     if (user) {
         return (
             <>
-                <p>Hey!!! find someone now!</p>
+                <p>Find Someone!</p>
                 <input type="text" onChange={e => setInput(e.target.value)} />
 
                 <div>

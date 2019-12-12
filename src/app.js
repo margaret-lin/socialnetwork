@@ -105,7 +105,7 @@ export class App extends React.Component {
                                     </Button>
                                     <Button startIcon={<ExitToAppIcon />}>
                                         <li>
-                                            <Link to="#">Logout</Link>
+                                            <a href="/logout">Logout</a>
                                         </li>
                                     </Button>
                                 </ul>

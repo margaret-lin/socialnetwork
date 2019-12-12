@@ -3,12 +3,6 @@ body {
     margin: 0;
 }
 
-a:link,
-a:visited {
-    text-decoration: none;
-    color: black;
-}
-
 main {
     text-align: center;
     position: relative;
@@ -74,8 +68,23 @@ main {
     justify-content: flex-end;
     text-decoration: none;
     font-weight: 500;
-    color: black;
+    color: mintcream;
     font-size: 20px;
+}
+
+.nav-container-items ul a:link,
+.nav-container-items ul a:visited {
+    text-decoration: none;
+    color: mintcream;
+
+}
+
+.MuiButton-label {
+    width: 100%;
+    display: inherit;
+    align-items: inherit;
+    justify-content: inherit;
+    color: mintcream;
 }
 
 /* .nav-container-items ul li {

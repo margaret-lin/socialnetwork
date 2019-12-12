@@ -153,13 +153,13 @@ app.get("/user.json", (req, res) => {
         .catch(err => console.log("error in app.get/user...", err));
 });
 
-app.get("/users/:firstName.json", (req, res) => {
+app.get("/users/:firstName", (req, res) => {
     let { firstName } = req.params;
 
     db.getOtherUsers(firstName)
         .then(({ rows }) => {
-            // console.log("successful made it to getOtherUsers!");
-            // console.log("db.getOtherUsers result; ", rows);
+            console.log("successful made it to getOtherUsers!");
+            console.log("db.getOtherUsers result; ", rows);
 
             if (rows[0]) {
                 res.json(rows);
@@ -277,6 +277,11 @@ app.post("/update-bio", (req, res) => {
             if (rows[0]) res.json(createUserResponse(rows[0]));
         })
         .catch(err => console.log("err in app.post/update-bio", err));
+});
+
+app.get("/logout", (req, res) => {
+    req.session = null;
+    res.redirect("/welcome");
 });
 
 app.get("/welcome", (req, res) => {
