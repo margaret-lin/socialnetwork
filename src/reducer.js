@@ -46,7 +46,9 @@ export default function reducer(state = {}, action) {
     if (action.type == "DISCONNECT_USER") {
         state = {
             ...state,
-            disconnectUser: action.disconnectUser
+            onlineUsers: state.onlineUsers.filter(
+                user => user.id != action.disconnectUser
+            )
         };
     }
 

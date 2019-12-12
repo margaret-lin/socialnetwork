@@ -11,6 +11,9 @@ export function Profile(props) {
                 profilePicUrl={props.profilePicUrl}
                 profilePicClass="profile-pic"
             />
+            <h2>
+                {props.firstName} {props.lastName}
+            </h2>
 
             <BioEditor
                 biography={props.biography}

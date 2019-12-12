@@ -8,6 +8,15 @@ main {
     position: relative;
 }
 
+/* button {
+    width: auto;
+    height: 50px;
+    border-radius: 3px;
+    background-color: yellow;
+    box-shadow: 0 2px 2px 0.5px rgba(0, 0, 0, 0.281);
+    cursor: pointer;
+} */
+
 .input-field {
     white-space: pre-line;
     line-height: 20px;
@@ -95,11 +104,12 @@ main {
     line-height: 2em;
 }
 
+
 #uploader-box {
-    background-color: rgba(44, 43, 38, 0.836);
+    background-color: rgba(194, 190, 171, 0.836);
     position: absolute;
-    height: 500px;
-    width: 600px;
+    height: 200px;
+    width: 300px;
     top: 60%;
     left: 50%;
     transform: translate(-50%, -50%);
