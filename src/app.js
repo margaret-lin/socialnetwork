@@ -17,6 +17,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import ChatIcon from "@material-ui/icons/Chat";
 import PeopleIcon from "@material-ui/icons/People";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import MouseIcon from '@material-ui/icons/Mouse';
 
 export class App extends React.Component {
     constructor() {
@@ -86,27 +87,28 @@ export class App extends React.Component {
                             </Link>
                             <div className="nav-container-items">
                                 <ul>
-                                    <Button startIcon={<SearchIcon />}>
-                                        <Link to="/findpeople">
+                                    <Link to="/friends">
+                                        <Button startIcon={<PeopleIcon />}>
+                                            My Friends
+                                        </Button>
+                                    </Link>
+                                    <Link to="/findpeople">
+                                        <Button startIcon={<SearchIcon />}>
                                             Find Friends
-                                        </Link>
-                                    </Button>
-                                    <Button startIcon={<ChatIcon />}>
-                                        <li>
-                                            <Link to="/chat">Chat</Link>
-                                        </li>
-                                    </Button>
-                                    <Button startIcon={<PeopleIcon />}>
-                                        <li>
-                                            <Link to="/onlineusers">
-                                                Online Users
-                                            </Link>
-                                        </li>
-                                    </Button>
+                                        </Button>
+                                    </Link>
+                                    <Link to="/chat">
+                                        <Button startIcon={<ChatIcon />}>
+                                            Chat
+                                        </Button>
+                                    </Link>
+                                    <Link to="/onlineusers">
+                                        <Button startIcon={<MouseIcon />}>
+                                            Online Users
+                                        </Button>
+                                    </Link>
                                     <Button startIcon={<ExitToAppIcon />}>
-                                        <li>
-                                            <a href="/logout">Logout</a>
-                                        </li>
+                                        <a href="/logout">Logout</a>
                                     </Button>
                                 </ul>
                             </div>
