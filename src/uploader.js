@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "./axios";
+import Button from "@material-ui/core/Button";
 
 export default class Uploader extends React.Component {
     constructor() {
@@ -36,6 +37,9 @@ export default class Uploader extends React.Component {
                     type="file"
                     name="file"
                     accept="image/*"
+                    id="raised-button-file"
+                    className="input"
+                    multiple
                 />
                 <button onClick={this.uploadImage}>upload</button>
             </div>

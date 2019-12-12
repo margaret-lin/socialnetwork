@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "./axios";
 import { BrowserRouter, Route } from "react-router-dom";
-// import Navigation from "./nav-bar";
+import Navigation from "./nav-bar";
 import { ProfilePic } from "./profile-pic";
 import Uploader from "./uploader";
 import { Profile } from "./profile";
@@ -17,7 +17,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import ChatIcon from "@material-ui/icons/Chat";
 import PeopleIcon from "@material-ui/icons/People";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import MouseIcon from '@material-ui/icons/Mouse';
+import MouseIcon from "@material-ui/icons/Mouse";
 
 export class App extends React.Component {
     constructor() {
@@ -159,7 +159,7 @@ export class App extends React.Component {
                     </div>
                 </BrowserRouter>
 
-                {/* <Notification /> */}
+                <Notification />
                 {this.state.uploaderIsVisible && (
                     <Uploader refreshProfilePic={this.refreshProfilePic} />
                 )}

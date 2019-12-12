@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "./axios";
+import Button from "@material-ui/core/Button";
 
 export function Friendshipbutton({ otherUserId }) {
     console.log("otherUserId in friendship button: ", otherUserId);
@@ -30,9 +31,14 @@ export function Friendshipbutton({ otherUserId }) {
     return (
         <div>
             <p>hey im friendship button</p>
-            <button className="friendship-button" onClick={submit}>
+            <Button
+                variant="outlined"
+                color="primary"
+                className="friendship-button"
+                onClick={submit}
+            >
                 {buttonText}
-            </button>
+            </Button>
         </div>
     );
 }

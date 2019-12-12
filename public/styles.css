@@ -108,7 +108,7 @@ main {
 #uploader-box {
     background-color: rgba(194, 190, 171, 0.836);
     position: absolute;
-    height: 200px;
+    height: 100px;
     width: 300px;
     top: 60%;
     left: 50%;
@@ -120,7 +120,7 @@ main {
 #uploader-box input, #uploader-box button {
     justify-content: center;
     align-self: center;
-    margin-left: 60px;
+    /* margin-left: 60px; */
 }
 
 img {
