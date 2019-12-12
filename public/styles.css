@@ -3,6 +3,12 @@ body {
     margin: 0;
 }
 
+a:link,
+a:visited {
+    text-decoration: none;
+    color: black;
+}
+
 main {
     text-align: center;
     position: relative;
@@ -34,11 +40,13 @@ main {
     background-color: #eb793c;
     height: 75px;
     box-shadow: 0 2px 2px 0.5px rgba(0, 0, 0, 0.281);
+    display: grid;
+    grid-template-columns: 80px auto 80px;
 }
 
 .logo-small {
     height: 75px;
-    float: left;
+    grid-column: 1 / 2;
 }
 
 .profile-pic {
@@ -51,9 +59,28 @@ main {
 .small-profile-pic {
     width: 75px;
     height: 75px;
-    float: right;
+    grid-column: 3 / 4;
     cursor: pointer;
 }
+
+.nav-container-items > ul {
+    grid-column: 2 / 3;
+    display: flex;
+}
+
+.nav-container-items ul {
+    flex-direction: row;
+    list-style-type: none;
+    justify-content: flex-end;
+    text-decoration: none;
+    font-weight: 500;
+    color: black;
+    font-size: 20px;
+}
+
+/* .nav-container-items ul li {
+    margin: 10px;
+} */
 
 .registration-field {
     line-height: 2em;

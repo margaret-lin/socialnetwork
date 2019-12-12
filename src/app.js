@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "./axios";
 import { BrowserRouter, Route } from "react-router-dom";
+// import Navigation from "./nav-bar";
 import { ProfilePic } from "./profile-pic";
 import Uploader from "./uploader";
 import { Profile } from "./profile";
@@ -10,6 +11,12 @@ import { Friends } from "./friends";
 import { Chat } from "./chat-encounter";
 import { Notification } from "./notification";
 import { OnlineUsers } from "./online-users";
+import { Link } from "react-router-dom";
+import Button from "@material-ui/core/Button";
+import SearchIcon from "@material-ui/icons/Search";
+import ChatIcon from "@material-ui/icons/Chat";
+import PeopleIcon from "@material-ui/icons/People";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
 export class App extends React.Component {
     constructor() {
@@ -67,13 +74,43 @@ export class App extends React.Component {
         return (
             <div>
                 <BrowserRouter>
+                    {/* <Navigation /> */}
                     <div>
                         <div id="nav-bar">
-                            <img
-                                src="/logo.jpg"
-                                className="logo-small"
-                                alt="Logo"
-                            />
+                            <Link to="/">
+                                <img
+                                    src="/logo.jpg"
+                                    className="logo-small"
+                                    alt="Logo"
+                                />
+                            </Link>
+                            <div className="nav-container-items">
+                                <ul>
+                                    <Button startIcon={<SearchIcon />}>
+                                        <Link to="/findpeople">
+                                            Find Friends
+                                        </Link>
+                                    </Button>
+                                    <Button startIcon={<ChatIcon />}>
+                                        <li>
+                                            <Link to="/chat">Chat</Link>
+                                        </li>
+                                    </Button>
+                                    <Button startIcon={<PeopleIcon />}>
+                                        <li>
+                                            <Link to="/onlineusers">
+                                                Online Users
+                                            </Link>
+                                        </li>
+                                    </Button>
+                                    <Button startIcon={<ExitToAppIcon />}>
+                                        <li>
+                                            <Link to="#">Logout</Link>
+                                        </li>
+                                    </Button>
+                                </ul>
+                            </div>
+
                             <ProfilePic
                                 firstName={this.state.firstName}
                                 lastName={this.state.lastName}
@@ -82,7 +119,6 @@ export class App extends React.Component {
                                 profilePicClass="small-profile-pic"
                             />
                         </div>
-
                         <Route
                             exact
                             path="/"

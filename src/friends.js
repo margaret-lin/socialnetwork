@@ -18,9 +18,6 @@ const useStyles = makeStyles(theme => ({
         height: 140,
         width: 100
     },
-    control: {
-        padding: theme.spacing(2)
-    },
     buttonSize: {
         width: 100 + "px",
         height: 30 + "px",
@@ -31,7 +28,7 @@ const useStyles = makeStyles(theme => ({
 
 export function Friends() {
     const dispatch = useDispatch();
-    // const [spacing, setSpacing] = React.useState(2);
+    const [spacing, setSpacing] = React.useState(2);
     const classes = useStyles();
 
     const friends = useSelector(state => {

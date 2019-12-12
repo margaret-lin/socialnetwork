@@ -153,7 +153,7 @@ app.get("/user.json", (req, res) => {
         .catch(err => console.log("error in app.get/user...", err));
 });
 
-app.get("/users/:firstName", (req, res) => {
+app.get("/users/:firstName.json", (req, res) => {
     let { firstName } = req.params;
 
     db.getOtherUsers(firstName)

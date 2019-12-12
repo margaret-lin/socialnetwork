@@ -12,7 +12,7 @@ export function FindPeople() {
         let stop = false;
 
         (async () => {
-            const { data } = await axios.get(`/users/${input}`);
+            const { data } = await axios.get(`/users/${input}`.json);
             console.log("data is", data);
             if (!stop) {
                 setUser(data);
@@ -28,7 +28,7 @@ export function FindPeople() {
         let stop = false;
 
         (async () => {
-            const { data } = await axios.get("/users");
+            const { data } = await axios.get("/users.json");
             console.log("data is", data);
             if (!stop) {
                 setMostRecentUsers(data);
